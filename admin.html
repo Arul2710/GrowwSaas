@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlTag" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>GrowwSaaS | Admin Dashboard</title>
+    <link rel="icon" type="image/jpg" href="image/growwpark_logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#3b82f6', // Blue
+                        secondary: '#8b5cf6' // Purple
+                    },
+                    screens: {
+                        'xs': '475px',
+                        'sm': '640px',
+                        'md': '768px',
+                        'lg': '1024px',
+                        'xl': '1280px',
+                    }
+                } 
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+            width: 100%;
+        }
+        
+        /* Logo Style - Blue to Purple Gradient */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sidebar-active { 
+            background: rgba(59, 130, 246, 0.1); 
+            border-left: 4px solid #3b82f6; 
+            color: #3b82f6 !important; 
+            font-weight: 700; 
+        }
+        
+        [dir="rtl"] .sidebar-active { 
+            border-left: 0; 
+            border-right: 4px solid #3b82f6; 
+        }
+        
+        .custom-shadow { 
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1); 
+        }
+        
+        .dark .custom-shadow { 
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.2); 
+        }
+        
+        .saas-card {
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            background: linear-gradient(135deg, rgba(59,130,246,0.02) 0%, rgba(255,255,255,1) 100%);
+        }
+        
+        .dark .saas-card {
+            background: linear-gradient(135deg, rgba(59,130,246,0.05) 0%, rgba(30,41,59,1) 100%);
+        }
+        
+        .page-node { 
+            display: none; 
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        
+        .page-node.active { 
+            display: block; 
+            animation: fadeInUp 0.4s ease forwards;
+        }
+        
+        @keyframes fadeInUp { 
+            from { 
+                opacity: 0; 
+                transform: translateY(15px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        @media (max-width: 1023px) {
+            #sidebar {
+                width: 280px;
+                box-shadow: 0 0 30px rgba(59,130,246,0.15);
+            }
+            
+            .dark #sidebar {
+                box-shadow: 0 0 30px rgba(59,130,246,0.3);
+            }
+        }
+        
+        button, a {
+            min-height: 44px;
+            min-width: 44px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 640px) {
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        .notification-item:hover {
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-[#0F172A] text-gray-900 dark:text-gray-100 antialiased">
+
+    <!-- Mobile Overlay -->
+    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity duration-300"></div>
+
+    <div class="flex min-h-screen relative w-full overflow-x-hidden">
+        <!-- Sidebar - SaaS Theme -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-[280px] bg-white dark:bg-[#1E293B] text-gray-500 dark:text-gray-400 transition-all duration-300 ease-in-out lg:translate-x-0 -translate-x-full border-r border-blue-100 dark:border-gray-700 overflow-y-auto">
+            <div class="p-5 h-full flex flex-col">
+                
+                <!-- Logo - Blue to Purple Gradient as Requested -->
+                <div class="flex items-center justify-between mb-8">
+                    <a href="index.html" class="logo mb-3">
+                        <span class="font-black text-2xl bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">GrowwSaas</span>
+                    </a>
+                    
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 hover:bg-blue-100 dark:hover:bg-gray-700 rounded-lg">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- SaaS Badge -->
+                <div class="mb-4 p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-primary/20 text-center">
+                    <span class="text-[8px] font-black text-primary uppercase tracking-widest">Enterprise SaaS • v2.5.0</span>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="flex-1 space-y-1 overflow-y-auto">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-primary/60 mb-3 ml-2">
+                        <i data-lucide="layout-grid" class="w-3 h-3 inline mr-1"></i>
+                        MAIN MENU
+                    </p>
+                    
+                    <a href="javascript:void(0)" onclick="showPage('stats')" id="btn-stats" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl sidebar-active transition-all hover:bg-blue-50 dark:hover:bg-white/5 group">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5 group-hover:scale-110 transition-transform text-primary"></i>
+                        <span class="font-medium">Dashboard</span>
+                    </a>
+                    
+                    <a href="javascript:void(0)" onclick="showPage('users')" id="btn-users" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-blue-50 dark:hover:bg-white/5 transition-all group">
+                        <i data-lucide="users" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium">Users</span>
+                        <span class="ml-auto bg-primary text-white text-[8px] font-black px-2 py-1 rounded-full">1,284</span>
+                    </a>
+                    
+                    <a href="javascript:void(0)" onclick="showPage('subscriptions')" id="btn-subscriptions" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-blue-50 dark:hover:bg-white/5 transition-all group">
+                        <i data-lucide="credit-card" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium">Subscriptions</span>
+                        <span class="ml-auto bg-primary text-white text-[8px] font-black px-2 py-1 rounded-full">$45.2k</span>
+                    </a>
+                    
+                    <a href="javascript:void(0)" onclick="showPage('analytics')" id="btn-analytics" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-blue-50 dark:hover:bg-white/5 transition-all group">
+                        <i data-lucide="trending-up" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium">Analytics</span>
+                    </a>
+                    
+                    <a href="javascript:void(0)" onclick="showPage('integrations')" id="btn-integrations" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-blue-50 dark:hover:bg-white/5 transition-all group">
+                        <i data-lucide="layers" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium">Integrations</span>
+                    </a>
+
+                    <!-- SETTINGS SECTION -->
+                    <div class="mt-6 pt-6 border-t border-blue-200 dark:border-gray-700">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-primary/60 mb-3 ml-2">
+                            <i data-lucide="settings" class="w-3 h-3 inline mr-1"></i>
+                            SETTINGS
+                        </p>
+                        
+                        <a href="javascript:void(0)" onclick="showPage('notifications')" id="btn-notifications" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-blue-50 dark:hover:bg-white/5 transition-all group">
+                            <i data-lucide="bell" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                            <span class="font-medium">Notifications</span>
+                            <span class="ml-auto bg-primary text-white text-[8px] font-black px-2 py-1 rounded-full">3</span>
+                        </a>
+                        
+                        <a href="javascript:void(0)" onclick="showPage('billing')" id="btn-billing" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-blue-50 dark:hover:bg-white/5 transition-all group">
+                            <i data-lucide="receipt" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                            <span class="font-medium">Billing</span>
+                        </a>
+                        
+                        <a href="javascript:void(0)" onclick="showPage('security')" id="btn-security" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-blue-50 dark:hover:bg-white/5 transition-all group">
+                            <i data-lucide="shield" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                            <span class="font-medium">Security</span>
+                        </a>
+                    </div>
+                </nav>
+
+                <!-- Bottom Controls -->
+                <div class="pt-6 mt-6 border-t border-blue-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between bg-blue-50 dark:bg-gray-800/50 p-2 rounded-2xl">
+                        <button onclick="toggleDirection()" class="p-2.5 hover:bg-white dark:hover:bg-gray-700 rounded-xl shadow-sm transition-all text-gray-400 hover:text-primary flex items-center gap-1">
+                            <i class="fa-solid fa-left-right text-xs"></i>
+                        </button>
+                        
+                        <button onclick="toggleDarkMode()" class="p-2.5 bg-white dark:bg-gray-700 rounded-xl text-primary shadow-sm hover:scale-110 transition-all">
+                            <i id="themeIcon" data-lucide="moon" class="w-4 h-4"></i>
+                        </button>
+                        
+                        <a href="login.html">
+                            <button class="p-2.5 bg-primary/10 rounded-xl text-primary hover:scale-110 transition-all">
+                                <i data-lucide="log-out" class="w-4 h-4"></i>
+                            </button>
+                        </a>
+                    </div>
+                    
+                    <!-- Admin Profile - SaaS Style -->
+                    <div class="mt-4 p-3 bg-gradient-to-r from-primary/5 to-transparent rounded-xl border border-primary/10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-black">
+                                JD
+                            </div>
+                            <div>
+                                <p class="font-bold text-sm">John Doe</p>
+                                <p class="text-[9px] text-primary uppercase font-black tracking-widest">Admin</p>
+                                <p class="text-[7px] text-gray-500">john.d@growwsaas.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-[280px] p-4 sm:p-5 md:p-6 lg:p-8 transition-all duration-300 w-full max-w-full overflow-x-hidden">
+            
+            <!-- Header -->
+            <header class="flex items-center justify-between mb-6 sm:mb-8">
+                <div class="flex-1">
+                    <div class="flex items-center gap-3">
+                        <button onclick="toggleSidebar()" class="lg:hidden p-2.5 bg-white dark:bg-[#1E293B] rounded-xl custom-shadow border border-blue-200 dark:border-gray-700">
+                            <i id="menuIcon" data-lucide="menu" class="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-white"></i>
+                        </button>
+                        <div>
+                            <h1 id="pageTitle" class="text-xl sm:text-2xl font-black tracking-tight uppercase">DASHBOARD</h1>
+                            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium mt-0.5">
+                                <span class="text-primary font-black">GrowwSaaS</span> · Enterprise Dashboard
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="flex items-center gap-2">
+                    <div class="hidden sm:flex items-center gap-2 bg-white dark:bg-[#1E293B] px-4 py-2 rounded-xl custom-shadow">
+                        <i data-lucide="clock" class="w-4 h-4 text-primary"></i>
+                        <span class="text-xs font-medium" id="liveTime">10:30 AM</span>
+                    </div>
+                    <div class="relative">
+                        <button onclick="showPage('notifications')" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center relative">
+                            <i data-lucide="bell" class="w-5 h-5 text-primary"></i>
+                            <span class="absolute -top-1 -right-1 bg-primary text-white text-[8px] font-black px-1.5 py-0.5 rounded-full">3</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- PAGES - SAAS THEMED -->
+            <div id="mainDisplay" class="space-y-6">
+                
+                <!-- === DASHBOARD PAGE - SAAS STATS === -->
+                <div id="page-stats" class="page-node active">
+                    <!-- Stats Cards - SaaS Metrics -->
+                    <div class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                        <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] custom-shadow border border-blue-200 dark:border-gray-700 hover:shadow-lg transition-shadow">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-[9px] sm:text-[10px] font-black text-primary uppercase tracking-widest">TOTAL REVENUE</p>
+                                <span class="bg-primary/10 text-primary text-[8px] sm:text-[9px] font-black px-2 py-1 rounded-full">+23%</span>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">$128.4k</h3>
+                            <div class="mt-2 flex items-center gap-2">
+                                <i data-lucide="trending-up" class="w-3 h-3 text-green-600"></i>
+                                <p class="text-[9px] sm:text-[10px] text-gray-500">+$12.3k from last month</p>
+                            </div>
+                        </div>
+                        
+                        <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] custom-shadow border border-blue-200 dark:border-gray-700">
+                            <p class="text-[9px] sm:text-[10px] font-black text-primary uppercase tracking-widest mb-2">ACTIVE USERS</p>
+                            <h3 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">1,284</h3>
+                            <div class="mt-2 flex items-center gap-2">
+                                <i data-lucide="users" class="w-3 h-3 text-primary"></i>
+                                <p class="text-[9px] sm:text-[10px] text-gray-500">+184 this week</p>
+                            </div>
+                        </div>
+                        
+                        <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] custom-shadow border border-blue-200 dark:border-gray-700">
+                            <p class="text-[9px] sm:text-[10px] font-black text-primary uppercase tracking-widest mb-2">SUBSCRIPTIONS</p>
+                            <h3 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">892</h3>
+                            <div class="mt-2 flex items-center gap-2">
+                                <i data-lucide="credit-card" class="w-3 h-3 text-primary"></i>
+                                <p class="text-[9px] sm:text-[10px] text-gray-500">45 enterprise</p>
+                            </div>
+                        </div>
+                        
+                        <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] custom-shadow border border-blue-200 dark:border-gray-700">
+                            <p class="text-[9px] sm:text-[10px] font-black text-primary uppercase tracking-widest mb-2">CHURN RATE</p>
+                            <h3 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">2.4%</h3>
+                            <div class="mt-2 flex items-center gap-2">
+                                <i data-lucide="trending-down" class="w-3 h-3 text-green-600"></i>
+                                <p class="text-[9px] sm:text-[10px] text-gray-500">-0.8% from last month</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts - SaaS Theme -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <div class="lg:col-span-2 saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2.5rem] custom-shadow border border-blue-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-xs sm:text-sm font-black uppercase tracking-wider">REVENUE TREND 2024</h4>
+                                <div class="flex gap-2">
+                                    <span class="px-2 py-1 bg-primary/10 text-primary rounded-lg text-[8px] sm:text-[9px] font-black">MRR</span>
+                                </div>
+                            </div>
+                            <div class="h-[200px] sm:h-[250px]">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2.5rem] custom-shadow border border-blue-200 dark:border-gray-700">
+                            <h4 class="text-xs sm:text-sm font-black uppercase tracking-wider mb-4">SUBSCRIPTION BREAKDOWN</h4>
+                            <div class="h-[200px] sm:h-[250px] flex items-center justify-center">
+                                <canvas id="trafficChart"></canvas>
+                            </div>
+                            <div class="mt-4 grid grid-cols-2 gap-2">
+                                <div class="flex items-center gap-1">
+                                    <span class="w-2 h-2 bg-primary rounded-full"></span>
+                                    <span class="text-[8px] sm:text-[9px] font-medium">Enterprise (25%)</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
+                                    <span class="text-[8px] sm:text-[9px] font-medium">Pro (45%)</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="w-2 h-2 bg-green-600 rounded-full"></span>
+                                    <span class="text-[8px] sm:text-[9px] font-medium">Basic (30%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity - SaaS -->
+                    <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2.5rem] custom-shadow border border-blue-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="text-xs sm:text-sm font-black uppercase tracking-wider">RECENT ACTIVITY</h4>
+                            <button class="text-primary text-[9px] sm:text-[10px] font-black uppercase hover:underline">
+                                View All
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-blue-50 dark:bg-gray-800/50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                                        <i data-lucide="user-plus" class="w-4 h-4 text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs sm:text-sm font-bold">New user registered</p>
+                                        <p class="text-[8px] sm:text-[9px] text-gray-400">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <span class="text-[9px] sm:text-[10px] font-black text-primary">Enterprise</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-3 bg-blue-50 dark:bg-gray-800/50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center">
+                                        <i data-lucide="credit-card" class="w-4 h-4 text-purple-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs sm:text-sm font-bold">Subscription upgraded</p>
+                                        <p class="text-[8px] sm:text-[9px] text-gray-400">3 hours ago</p>
+                                    </div>
+                                </div>
+                                <span class="text-[9px] sm:text-[10px] font-black">Pro → Enterprise</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-3 bg-blue-50 dark:bg-gray-800/50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                                        <i data-lucide="check-circle" class="w-4 h-4 text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs sm:text-sm font-bold">Payment successful</p>
+                                        <p class="text-[8px] sm:text-[9px] text-gray-400">5 hours ago</p>
+                                    </div>
+                                </div>
+                                <span class="text-[9px] sm:text-[10px] font-black text-green-600">$299</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === USERS PAGE === -->
+                <div id="page-users" class="page-node">
+                    <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-[2.5rem] custom-shadow border border-blue-200 dark:border-gray-700">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-black uppercase">USERS</h3>
+                                <p class="text-[9px] sm:text-[10px] text-primary mt-1">1,284 active users</p>
+                            </div>
+                            <button class="w-full sm:w-auto bg-primary text-white text-[10px] sm:text-[11px] font-black px-6 py-3 rounded-xl hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                <i data-lucide="user-plus" class="w-4 h-4"></i>
+                                Add User
+                            </button>
+                        </div>
+                        
+                        <!-- Users Table -->
+                        <div class="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+                            <table class="w-full min-w-[600px] sm:min-w-full text-left">
+                                <thead class="border-b border-blue-200 dark:border-gray-700 text-[9px] sm:text-[10px] uppercase font-black text-primary">
+                                    <tr>
+                                        <th class="pb-3 sm:pb-4">USER</th>
+                                        <th class="pb-3 sm:pb-4">EMAIL</th>
+                                        <th class="pb-3 sm:pb-4">PLAN</th>
+                                        <th class="pb-3 sm:pb-4 text-center">STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-xs sm:text-sm font-medium">
+                                    <tr class="border-b border-blue-100 dark:border-gray-800 hover:bg-blue-50 dark:hover:bg-gray-800/50 transition-colors">
+                                        <td class="py-3 sm:py-4 font-black">John Smith</td>
+                                        <td class="py-3 sm:py-4">john.s@company.com</td>
+                                        <td class="py-3 sm:py-4">
+                                            <span class="bg-primary/10 text-primary px-2 py-1 rounded-full text-[8px] font-black">Enterprise</span>
+                                        </td>
+                                        <td class="py-3 sm:py-4 text-center">
+                                            <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-[8px] font-black">Active</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-blue-100 dark:border-gray-800 hover:bg-blue-50 dark:hover:bg-gray-800/50 transition-colors">
+                                        <td class="py-3 sm:py-4 font-black">Sarah Johnson</td>
+                                        <td class="py-3 sm:py-4">sarah.j@tech.com</td>
+                                        <td class="py-3 sm:py-4">
+                                            <span class="bg-purple-100 text-purple-600 px-2 py-1 rounded-full text-[8px] font-black">Pro</span>
+                                        </td>
+                                        <td class="py-3 sm:py-4 text-center">
+                                            <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-[8px] font-black">Active</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-blue-100 dark:border-gray-800 hover:bg-blue-50 dark:hover:bg-gray-800/50 transition-colors">
+                                        <td class="py-3 sm:py-4 font-black">Mike Wilson</td>
+                                        <td class="py-3 sm:py-4">mike.w@startup.io</td>
+                                        <td class="py-3 sm:py-4">
+                                            <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-[8px] font-black">Basic</span>
+                                        </td>
+                                        <td class="py-3 sm:py-4 text-center">
+                                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full text-[8px] font-black">Pending</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === SUBSCRIPTIONS PAGE === -->
+                <div id="page-subscriptions" class="page-node">
+                    <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl custom-shadow border border-blue-200 dark:border-gray-700">
+                        <h3 class="text-lg sm:text-xl font-black uppercase mb-6">SUBSCRIPTIONS</h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                            <div class="p-4 bg-blue-50 dark:bg-gray-800 rounded-xl">
+                                <p class="text-[9px] text-primary font-black">ENTERPRISE</p>
+                                <p class="text-xl font-black mt-1">45</p>
+                                <p class="text-[8px] text-gray-500">$12,345 MRR</p>
+                            </div>
+                            <div class="p-4 bg-purple-50 dark:bg-gray-800 rounded-xl">
+                                <p class="text-[9px] text-purple-600 font-black">PRO</p>
+                                <p class="text-xl font-black mt-1">382</p>
+                                <p class="text-[8px] text-gray-500">$8,956 MRR</p>
+                            </div>
+                            <div class="p-4 bg-green-50 dark:bg-gray-800 rounded-xl">
+                                <p class="text-[9px] text-green-600 font-black">BASIC</p>
+                                <p class="text-xl font-black mt-1">465</p>
+                                <p class="text-[8px] text-gray-500">$4,650 MRR</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === ANALYTICS PAGE === -->
+                <div id="page-analytics" class="page-node">
+                    <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl custom-shadow border border-blue-200 dark:border-gray-700">
+                        <h3 class="text-lg sm:text-xl font-black uppercase mb-6">ANALYTICS</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="p-4 bg-blue-50 dark:bg-gray-800 rounded-xl">
+                                <p class="text-[9px] text-primary font-black">CONVERSION RATE</p>
+                                <p class="text-2xl font-black mt-2">3.2%</p>
+                                <p class="text-[8px] text-gray-500 mt-1">↑ 0.5% from last month</p>
+                            </div>
+                            <div class="p-4 bg-blue-50 dark:bg-gray-800 rounded-xl">
+                                <p class="text-[9px] text-primary font-black">AVG. SESSION</p>
+                                <p class="text-2xl font-black mt-2">4m 32s</p>
+                                <p class="text-[8px] text-gray-500 mt-1">↑ 12% from last month</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === INTEGRATIONS PAGE === -->
+                <div id="page-integrations" class="page-node">
+                    <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl custom-shadow border border-blue-200 dark:border-gray-700">
+                        <h3 class="text-lg sm:text-xl font-black uppercase mb-6">INTEGRATIONS</h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="flex items-center gap-3 p-4 bg-blue-50 dark:bg-gray-800 rounded-xl">
+                                <i class="fab fa-slack text-2xl text-[#4A154B]"></i>
+                                <div>
+                                    <p class="font-black text-sm">Slack</p>
+                                    <p class="text-[8px] text-gray-500">Connected</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-4 bg-blue-50 dark:bg-gray-800 rounded-xl">
+                                <i class="fab fa-google text-2xl text-[#4285F4]"></i>
+                                <div>
+                                    <p class="font-black text-sm">Google Workspace</p>
+                                    <p class="text-[8px] text-gray-500">Connected</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-4 bg-blue-50 dark:bg-gray-800 rounded-xl">
+                                <i class="fab fa-github text-2xl text-gray-900 dark:text-white"></i>
+                                <div>
+                                    <p class="font-black text-sm">GitHub</p>
+                                    <p class="text-[8px] text-gray-500">Connected</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === NOTIFICATIONS PAGE === -->
+                <div id="page-notifications" class="page-node">
+                    <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl custom-shadow border border-blue-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg sm:text-xl font-black uppercase">NOTIFICATIONS</h3>
+                            <button class="bg-primary/10 text-primary text-[9px] font-black px-4 py-2 rounded-xl hover:bg-primary/20 transition-colors">
+                                <i data-lucide="check-check" class="w-3 h-3 inline mr-1"></i>
+                                Mark All Read
+                            </button>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="p-4 bg-primary/5 rounded-2xl border border-primary/20 notification-item">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
+                                        <i data-lucide="user-plus" class="w-5 h-5 text-primary"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <p class="text-xs sm:text-sm font-black">New user registered</p>
+                                            <span class="text-[8px] text-gray-400">10 min ago</span>
+                                        </div>
+                                        <p class="text-[9px] sm:text-[10px] text-gray-600 dark:text-gray-400">Enterprise plan</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-blue-50 dark:bg-gray-800 rounded-2xl notification-item">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-10 h-10 bg-purple-500/20 rounded-xl flex items-center justify-center">
+                                        <i data-lucide="credit-card" class="w-5 h-5 text-purple-500"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <p class="text-xs sm:text-sm font-black">Payment received</p>
+                                            <span class="text-[8px] text-gray-400">25 min ago</span>
+                                        </div>
+                                        <p class="text-[9px] sm:text-[10px] text-gray-600 dark:text-gray-400">$299 from Pro plan</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === BILLING PAGE === -->
+                <div id="page-billing" class="page-node">
+                    <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl custom-shadow border border-blue-200 dark:border-gray-700">
+                        <h3 class="text-lg sm:text-xl font-black uppercase mb-6">BILLING</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between p-4 bg-blue-50 dark:bg-gray-800 rounded-xl">
+                                <span class="font-black">Current Plan</span>
+                                <span class="text-primary font-black">Enterprise</span>
+                            </div>
+                            <div class="flex justify-between p-4 bg-blue-50 dark:bg-gray-800 rounded-xl">
+                                <span class="font-black">Next Invoice</span>
+                                <span class="font-black">$1,299</span>
+                            </div>
+                            <div class="flex justify-between p-4 bg-blue-50 dark:bg-gray-800 rounded-xl">
+                                <span class="font-black">Billing Cycle</span>
+                                <span class="font-black">Monthly</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === SECURITY PAGE === -->
+                <div id="page-security" class="page-node">
+                    <div class="saas-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl custom-shadow border border-blue-200 dark:border-gray-700">
+                        <div class="flex items-center gap-2 mb-6">
+                            <i data-lucide="shield" class="w-6 h-6 text-primary"></i>
+                            <h3 class="text-lg sm:text-xl font-black uppercase">SECURITY</h3>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- Password Section -->
+                            <div class="bg-blue-50 dark:bg-gray-800/50 rounded-xl p-4">
+                                <h4 class="text-xs font-black uppercase mb-4 flex items-center gap-2">
+                                    <i data-lucide="key" class="w-4 h-4 text-primary"></i>
+                                    Password & Authentication
+                                </h4>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-xs font-bold">Password Strength</p>
+                                        <div class="flex items-center gap-1 mt-2">
+                                            <span class="w-1 h-4 bg-primary rounded-full"></span>
+                                            <span class="w-1 h-4 bg-primary rounded-full"></span>
+                                            <span class="w-1 h-4 bg-primary rounded-full"></span>
+                                            <span class="w-1 h-4 bg-primary rounded-full"></span>
+                                            <span class="w-1 h-4 bg-gray-300 rounded-full"></span>
+                                            <span class="text-[8px] font-bold text-primary ml-2">Strong</span>
+                                        </div>
+                                    </div>
+                                    <button class="text-[9px] font-black text-primary hover:underline">Change</button>
+                                </div>
+                            </div>
+
+                            <!-- Two-Factor -->
+                            <div class="bg-blue-50 dark:bg-gray-800/50 rounded-xl p-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="text-xs font-black">Two-Factor Authentication</h4>
+                                        <p class="text-[8px] text-gray-500 mt-1">Protect your account with 2FA</p>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer" checked>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Session Management -->
+                            <div class="bg-blue-50 dark:bg-gray-800/50 rounded-xl p-4">
+                                <h4 class="text-xs font-black mb-3">Active Sessions</h4>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="chrome" class="w-4 h-4"></i>
+                                        <span class="text-xs">Chrome · Windows</span>
+                                    </div>
+                                    <span class="text-[8px] text-green-600">Current</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <footer class="mt-8 text-center text-[8px] sm:text-[9px] text-primary/60 uppercase tracking-wider">
+                <p>© 2024 GrowwSaaS · Enterprise SaaS Platform</p>
+                <p class="mt-1">v2.5.0 · All rights reserved</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuIcon = document.getElementById('menuIcon');
+            
+            sidebar.classList.toggle('-translate-x-full');
+            
+            if (window.innerWidth < 1024) {
+                if (overlay) {
+                    overlay.classList.toggle('hidden');
+                }
+            }
+            
+            if (menuIcon) {
+                const isHidden = sidebar.classList.contains('-translate-x-full');
+                menuIcon.setAttribute('data-lucide', isHidden ? 'menu' : 'x');
+                lucide.createIcons();
+            }
+        }
+
+        // Window resize handler
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('-translate-x-full');
+                if (overlay) overlay.classList.add('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                if (overlay) overlay.classList.add('hidden');
+            }
+        });
+
+        // Dark Mode
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            
+            const icon = document.getElementById('themeIcon');
+            const isDark = html.classList.contains('dark');
+            
+            icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            lucide.createIcons();
+            
+            localStorage.setItem('darkMode', isDark ? 'dark' : 'light');
+        }
+
+        // Check saved dark mode
+        if (localStorage.getItem('darkMode') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.getElementById('themeIcon')?.setAttribute('data-lucide', 'sun');
+            lucide.createIcons();
+        }
+
+        // Direction Toggle
+        function toggleDirection() {
+            const html = document.getElementById('htmlTag');
+            const dirText = document.getElementById('dirText');
+            
+            html.dir = html.dir === 'rtl' ? 'ltr' : 'rtl';
+            
+            if (window.revenueChart) {
+                window.revenueChart.update();
+            }
+            
+            lucide.createIcons();
+        }
+
+        // Page Switching
+        function showPage(pageId) {
+            document.querySelectorAll('.page-node').forEach(p => p.classList.remove('active'));
+            
+            const targetNode = document.getElementById('page-' + pageId);
+            if (targetNode) {
+                targetNode.classList.add('active');
+            }
+            
+            const pageTitles = {
+                'stats': 'DASHBOARD',
+                'users': 'USERS',
+                'subscriptions': 'SUBSCRIPTIONS',
+                'analytics': 'ANALYTICS',
+                'integrations': 'INTEGRATIONS',
+                'notifications': 'NOTIFICATIONS',
+                'billing': 'BILLING',
+                'security': 'SECURITY'
+            };
+            
+            const titleElement = document.getElementById('pageTitle');
+            if (titleElement) {
+                titleElement.innerText = pageTitles[pageId] || pageId.toUpperCase();
+            }
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('sidebar-active');
+            });
+            
+            const activeBtn = document.getElementById('btn-' + pageId);
+            if (activeBtn) {
+                activeBtn.classList.add('sidebar-active');
+            }
+
+            if (window.innerWidth < 1024) {
+                toggleSidebar();
+            }
+            
+            if (pageId === 'stats' && window.revenueChart) {
+                setTimeout(() => {
+                    window.revenueChart.update();
+                    window.trafficChart?.update();
+                }, 100);
+            }
+        }
+
+        // Live Time
+        function updateLiveTime() {
+            const timeElement = document.getElementById('liveTime');
+            if (timeElement) {
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                const formattedHours = hours % 12 || 12;
+                const formattedMinutes = minutes.toString().padStart(2, '0');
+                timeElement.innerText = `${formattedHours}:${formattedMinutes} ${ampm} EST`;
+            }
+        }
+        
+        setInterval(updateLiveTime, 1000);
+        updateLiveTime();
+
+        // Charts - SaaS Theme
+        const ctxRevenue = document.getElementById('revenueChart')?.getContext('2d');
+        if (ctxRevenue) {
+            window.revenueChart = new Chart(ctxRevenue, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [
+                        {
+                            label: 'Revenue',
+                            data: [45000, 52000, 58000, 65000, 72000, 89000],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            pointHoverRadius: 6,
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: document.documentElement.classList.contains('dark') ? '#1E293B' : '#FFFFFF',
+                            titleColor: document.documentElement.classList.contains('dark') ? '#FFFFFF' : '#111827',
+                            bodyColor: document.documentElement.classList.contains('dark') ? '#E5E7EB' : '#4B5563'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: document.documentElement.classList.contains('dark') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(59, 130, 246, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        const ctxTraffic = document.getElementById('trafficChart')?.getContext('2d');
+        if (ctxTraffic) {
+            window.trafficChart = new Chart(ctxTraffic, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Enterprise', 'Pro', 'Basic'],
+                    datasets: [
+                        {
+                            data: [25, 45, 30],
+                            backgroundColor: ['#3b82f6', '#8b5cf6', '#22c55e'],
+                            borderWidth: 0,
+                            hoverOffset: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: document.documentElement.classList.contains('dark') ? '#1E293B' : '#FFFFFF',
+                            titleColor: document.documentElement.classList.contains('dark') ? '#FFFFFF' : '#111827',
+                            bodyColor: document.documentElement.classList.contains('dark') ? '#E5E7EB' : '#4B5563'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.createElement('div');
+            overlay.id = 'sidebarOverlay';
+            overlay.className = 'fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity duration-300';
+            overlay.onclick = toggleSidebar;
+            document.body.appendChild(overlay);
+            
+            showPage('stats');
+            lucide.createIcons();
+        });
+
+        // Prevent double-tap zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>

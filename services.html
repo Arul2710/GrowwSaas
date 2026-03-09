@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>GrowwSaas - Services</title>
+    <link rel="icon" type="image/jpg" href="image/growwpark_logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#3b82f6', 
+                        secondary: '#10b981',
+                        darkBg: '#0f172a'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                } 
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        body.light {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        body.dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        body.menu-open {
+            overflow: hidden;
+        }
+        
+        /* Floating Navbar - Blue Theme */
+        .navbar {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .dark .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3);
+        }
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #3b82f6;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-text {
+            font-weight: 900;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .dark .logo-text {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Nav Links */
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 40px;
+            color: #1e293b;
+            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .dark .nav-link {
+            color: #e2e8f0;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link i {
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-link:hover i,
+        .nav-link.active i {
+            color: white;
+            transform: rotate(180deg);
+        }
+        
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            margin-top: 15px;
+            min-width: 220px;
+            background: white;
+            border-radius: 24px;
+            padding: 12px;
+            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .dark .dropdown-menu {
+            background: #1e293b;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        
+        .dropdown-group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 16px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .dark .dropdown-item {
+            color: #e2e8f0;
+        }
+        
+        .dropdown-item i {
+            width: 18px;
+            color: #3b82f6;
+        }
+        
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .dropdown-item:hover i {
+            color: white;
+        }
+        
+        .dropdown-item.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+        }
+        
+        .dropdown-item.active i {
+            color: white;
+        }
+        
+        /* Full Screen Mobile Menu */
+        #mobileMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .dark #mobileMenu {
+            background: rgba(15, 23, 42, 0.98);
+        }
+        
+        #mobileMenu.open {
+            transform: translateX(0);
+        }
+        
+        /* Mobile Header */
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 30px;
+        }
+        
+        /* Close Button */
+        .close-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: white;
+            border: none;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+        
+        /* Mobile Links */
+        .mobile-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #1e293b;
+            background: white;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.1);
+            text-decoration: none;
+        }
+        
+        .dark .mobile-link {
+            color: #e2e8f0;
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+        
+        .mobile-link:hover,
+        .mobile-link.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            transform: translateX(10px);
+            border-color: transparent;
+        }
+        
+        .mobile-link:hover i,
+        .mobile-link.active i {
+            color: white;
+        }
+        
+        /* Mobile Submenu */
+        .mobile-submenu {
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 2px solid #3b82f6;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .mobile-submenu.open {
+            display: block;
+        }
+        
+        .mobile-submenu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border-radius: 16px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: white;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .dark .mobile-submenu a {
+            color: #e2e8f0;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .mobile-submenu a:hover,
+        .mobile-submenu a.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            transform: translateX(10px);
+            border-color: transparent;
+        }
+        
+        .mobile-submenu a:hover i,
+        .mobile-submenu a.active i {
+            color: white;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 45px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.5);
+        }
+        
+        /* Settings Section */
+        .settings-section {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 30px;
+            padding: 24px;
+            margin-top: 30px;
+        }
+        
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
+        
+        .settings-label {
+            font-weight: 600;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dark .settings-label {
+            color: #e2e8f0;
+        }
+        
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .mobile-toggle {
+                display: none !important;
+            }
+            .desktop-menu {
+                display: flex !important;
+            }
+            .desktop-auth {
+                display: block !important;
+            }
+        }
+        
+        /* iPad Pro Specific */
+        @media (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #4d8cff 0%, #2979ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Main Content Padding */
+        .main-content {
+            padding-top: 100px;
+        }
+    </style>
+</head>
+<body class="light font-inter">
+
+    <!-- Navbar - Perfect Blue Theme -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 py-2">
+            <div class="flex items-center justify-between">
+                
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <span class="logo-text">GrowwSaas</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu items-center gap-1">
+                    <!-- Home Dropdown -->
+                    <div class="dropdown-group relative">
+                        <button class="nav-link">
+                            Home <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="index.html" class="dropdown-item">Home 1</a>
+                            <a href="home2.html" class="dropdown-item">Home 2</a>
+                        </div>
+                    </div>
+
+                    <!-- About -->
+                    <a href="about.html" class="nav-link ">About</a>
+
+                    <!-- Services -->
+                    <a href="services.html" class="nav-link active">Services</a>
+
+                    <!-- Pricing -->
+                    <a href="price.html" class="nav-link">Pricing</a>
+
+                    <!-- Features -->
+                    <a href="features.html" class="nav-link">Features</a>
+
+                    <!-- Dashboard Dropdown -->
+                    <div class="dropdown-group relative">
+                        <button class="nav-link">Dashboard <i data-lucide="chevron-down" class="w-4 h-4"></i></button>
+                        <div class="dropdown-menu">
+                            <a href="admin.html" class="dropdown-item">Admin Panel</a>
+                            <a href="user.html" class="dropdown-item">User Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="flex items-center gap-2">
+                    <!-- Theme & Direction -->
+                    <div class="desktop-menu flex items-center gap-2">
+                        <button onclick="toggleDirection()" class="action-btn">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        </button>
+                        <button onclick="toggleTheme()" class="action-btn">
+                            <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                            <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Auth Dropdown -->
+                    <div class="desktop-auth dropdown-group relative">
+                        <button class="action-btn">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu" style="right: 0; left: auto;">
+                            <a href="login.html" class="dropdown-item"><i data-lucide="log-in"></i>Login</a>
+                            <a href="signup.html" class="dropdown-item"><i data-lucide="user-plus"></i>Signup</a>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()" class="mobile-toggle action-btn">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Full Screen Mobile Menu -->
+    <div id="mobileMenu">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <a href="index.html" class="logo">
+                <span class="logo-text">GrowwSaas</span>
+            </a>
+            <button onclick="toggleMobileMenu()" class="close-btn">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="px-4">
+            <!-- Home Section -->
+            <button onclick="toggleMobileSubmenu('mobileHomeSub')" class="mobile-link">
+                <span>HOME</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="homeSubIcon"></i>
+            </button>
+            <div id="mobileHomeSub" class="mobile-submenu open">
+                <a href="index.html" onclick="closeMobileMenu()">HOME 1</a>
+                <a href="home2.html" onclick="closeMobileMenu()">HOME 2</a>
+            </div>
+
+            <!-- About -->
+            <a href="about.html" class="mobile-link " onclick="closeMobileMenu()">
+                <span>ABOUT</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Services -->
+            <a href="services.html" class="mobile-link active" onclick="closeMobileMenu()">
+                <span>SERVICES</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Pricing -->
+            <a href="price.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>PRICING</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Features -->
+            <a href="features.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>FEATURES</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Dashboard Section -->
+            <button onclick="toggleMobileSubmenu('mobileDashSub')" class="mobile-link">
+                <span>DASHBOARD</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="dashSubIcon"></i>
+            </button>
+            <div id="mobileDashSub" class="mobile-submenu">
+                <a href="admin.html" onclick="closeMobileMenu()">ADMIN</a>
+                <a href="user.html" onclick="closeMobileMenu()">USER</a>
+            </div>
+
+            <!-- Auth Section -->
+            <button onclick="toggleMobileSubmenu('mobileAuthSub')" class="mobile-link">
+                <span><i data-lucide="log-in" class="w-5 h-5 inline mr-2"></i>ACCOUNT</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="authSubIcon"></i>
+            </button>
+            <div id="mobileAuthSub" class="mobile-submenu">
+                <a href="login.html" onclick="closeMobileMenu()"><i data-lucide="log-in"></i>LOGIN</a>
+                <a href="signup.html" onclick="closeMobileMenu()"><i data-lucide="user-plus"></i>SIGNUP</a>
+            </div>
+
+            <!-- Settings -->
+            <div class="settings-section">
+                <div class="settings-item">
+                    <span class="settings-label"><i class="fa-solid fa-arrow-right-arrow-left text-primary"></i>DIRECTION</span>
+                    <button onclick="toggleDirection()" class="action-btn"><i class="fa-solid fa-left-right"></i></button>
+                </div>
+                <div class="settings-item">
+                    <span class="settings-label"><i data-lucide="moon" class="w-5 h-5"></i>THEME</span>
+                    <button onclick="toggleTheme()" class="action-btn">
+                        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.toggle('open');
+            body.classList.toggle('menu-open');
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.remove('open');
+            body.classList.remove('menu-open');
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        // Mobile Submenu Toggle
+        function toggleMobileSubmenu(submenuId) {
+            const submenu = document.getElementById(submenuId);
+            const button = submenu.previousElementSibling;
+            const icon = button.querySelector('i:last-child');
+            
+            // Close other submenus
+            document.querySelectorAll('.mobile-submenu').forEach(menu => {
+                if (menu.id !== submenuId && menu.classList.contains('open')) {
+                    menu.classList.remove('open');
+                    const prevButton = menu.previousElementSibling;
+                    const prevIcon = prevButton.querySelector('i:last-child');
+                    if (prevIcon) {
+                        prevIcon.style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+            
+            // Toggle current submenu
+            submenu.classList.toggle('open');
+            
+            // Rotate icon
+            if (icon) {
+                icon.style.transform = submenu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const body = document.body;
+            
+            html.classList.toggle('dark');
+            body.classList.toggle('dark');
+            
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+        }
+
+        // Direction Toggle
+        function toggleDirection() {
+            const html = document.documentElement;
+            html.dir = html.dir === 'rtl' ? 'ltr' : 'rtl';
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+
+        // Close menu with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const mobileMenu = document.getElementById('mobileMenu');
+                if (mobileMenu.classList.contains('open')) {
+                    closeMobileMenu();
+                }
+            }
+        });
+
+        // Close dropdowns when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown-group')) {
+                document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+                    dropdown.style.opacity = '0';
+                    dropdown.style.visibility = 'hidden';
+                });
+            }
+        });
+    </script>
+
+
+<!-- Section 1: Hero with Background Image - Pure Tailwind -->
+<section class="min-h-screen flex items-center relative bg-cover bg-center bg-fixed py-24"
+         style="background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('image/service\ 1.jpg');">
+    
+    <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+            
+            
+            
+            <!-- Hero Title - gradient text exactly like original -->
+            <h1 class="text-[clamp(2.5rem,8vw,4.5rem)] font-extrabold leading-tight mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                <span class="text-gradient">Transform Your </span> Business with Enterprise SaaS Solutions
+            </h1>
+            
+            <!-- Hero Description - exactly like original -->
+            <p class="text-[clamp(1rem,4vw,1.25rem)] text-gray-300 leading-relaxed max-w-3xl mx-auto mb-10">
+                All-in-one cloud platform for modern businesses. Automate workflows, analyze data, and scale your operations with our cutting-edge technology.
+            </p>
+
+            
+
+            <!-- Hero Buttons - exactly like original -->
+            <div class="flex flex-wrap justify-center gap-5">
+                <!-- Primary Button -->
+                <a href="services-details.html" 
+                   class="inline-flex items-center gap-2.5 px-10 py-4 rounded-xl text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 shadow-lg"
+                   style="background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); box-shadow: 0 10px 30px -10px #4f46e5;">
+                    <i class="fas fa-rocket"></i>
+                    Services-details
+                </a>
+                
+                <!-- Secondary Button -->
+                <a href="#" 
+                   class="inline-flex items-center gap-2.5 px-10 py-4 rounded-xl text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20"
+                   style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                    <i class="fas fa-play"></i>
+                    Start Free Trial
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+    
+<style>
+        /* Custom utilities for dark mode */
+        @layer utilities {
+            .text-gradient {
+                background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            
+            .dark .text-gradient {
+                background: linear-gradient(135deg, #818cf8 0%, #67e8f9 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+            }
+            
+            .dark .bg-gradient-primary {
+                background: linear-gradient(135deg, #6366f1 0%, #22d3ee 100%);
+            }
+            
+            .shadow-custom {
+                box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1);
+            }
+            
+            .dark .shadow-custom {
+                box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+            }
+            
+            .icon-float {
+                animation: float 2s ease-in-out infinite;
+            }
+            
+            /* Dark mode transitions */
+            * {
+                transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+            }
+            
+            /* Card shine effect - light mode only */
+            .service-card::after {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -60%;
+                width: 20%;
+                height: 200%;
+                background: rgba(255, 255, 255, 0.3);
+                transform: rotate(25deg);
+                transition: all 0.6s ease;
+                opacity: 0;
+                pointer-events: none;
+            }
+            
+            .dark .service-card::after {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .service-card:hover::after {
+                left: 120%;
+                opacity: 1;
+            }
+            
+            /* Loading animation */
+            .card-image img {
+                opacity: 0;
+                animation: imageLoad 0.5s ease forwards;
+            }
+            
+            @keyframes imageLoad {
+                to { opacity: 1; }
+            }
+            
+            
+        }
+    </style>
+
+
+
+
+    
+    <!-- Services Section - Fully Responsive with Dark Mode -->
+    <section class="py-16 md:py-20 lg:py-24 relative overflow-hidden">
+        <!-- Background Decorations - Dark Mode Compatible -->
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 right-10 w-72 h-72 bg-secondary/5 dark:bg-secondary/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Section Header - Dark Mode Text -->
+            <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16 lg:mb-20">
+                <div class="inline-flex items-center gap-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-5 sm:px-6 py-2 rounded-full shadow-sm mb-6 border border-primary/10 dark:border-gray-700">
+                    <i class="fas fa-crown text-gradient text-sm"></i>
+                    <span class="text-sm font-semibold tracking-wide text-gradient uppercase">PREMIUM SERVICES</span>
+                    <i class="fas fa-crown text-gradient text-sm"></i>
+                </div>
+                
+                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
+                    <span class="text-gradient">
+                        Enterprise-Grade
+                    </span>
+                    <br class="hidden sm:block">
+                    <span class="text-gray-900 dark:text-white">SaaS Solutions</span>
+                </h2>
+                
+                
+
+                
+            </div>
+
+            <!-- Responsive Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <!-- Card 1: Cloud Infrastructure -->
+                <div class="service-card group bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-custom hover:shadow-custom-hover transition-all duration-500 hover:-translate-y-2 sm:hover:-translate-y-4">
+                    <!-- Card Image -->
+                    <div class="relative h-40 sm:h-44 md:h-48 overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
+                        <img src="image/service 2.jpg" 
+                             alt="Cloud Infrastructure"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/50 to-transparent"></div>
+                        
+                        <!-- Premium Badge -->
+                        <div class="absolute top-3 right-3 bg-white/20 dark:bg-white/10 backdrop-blur-sm p-1.5 sm:p-2 rounded-lg sm:rounded-xl">
+                            <i class="fas fa-crown text-yellow-300 text-base sm:text-xl"></i>
+                        </div>
+                        
+                        <!-- Main Icon -->
+                        <div class="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-16 bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-xl sm:rounded-2xl flex items-center justify-center border-2 border-white/30 icon-float">
+                                <i class="fas fa-cloud text-white text-xl sm:text-2xl lg:text-3xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card Content -->
+                    <div class="p-4 sm:p-5 lg:p-6">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
+                            <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white">Cloud Services</h3>
+                            <span class="px-2 sm:px-3 py-1 bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary-300 text-xs font-semibold rounded-full w-fit">POPULAR</span>
+                        </div>
+                        
+                        
+                        
+                        <!-- Service Details - Responsive -->
+                        <div class="space-y-2 sm:space-y-3 lg:space-y-4 mb-4 sm:mb-5 lg:mb-6">
+                            
+
+                            <!-- Auto-scaling -->
+                            <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-7 sm:h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-expand-arrows-alt text-primary text-xs sm:text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-2xs sm:text-xs text-gray-500 dark:text-gray-400 block">Auto-scaling</span>
+                                        <span class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">Instant</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-bolt text-warning text-xs sm:text-sm"></i>
+                            </div>
+
+                            <!-- CDN -->
+                            <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-7 sm:h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-globe text-purple-600 dark:text-purple-400 text-xs sm:text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-2xs sm:text-xs text-gray-500 dark:text-gray-400 block">CDN</span>
+                                        <span class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">Global</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-map-marker-alt text-secondary text-xs sm:text-sm"></i>
+                            </div>
+
+                            <!-- Backup -->
+                            <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-7 sm:h-8 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-database text-accent text-xs sm:text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-2xs sm:text-xs text-gray-500 dark:text-gray-400 block">Backup</span>
+                                        <span class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">Automated</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-sync-alt text-info dark:text-info-400 text-xs sm:text-sm fa-spin"></i>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons - Responsive -->
+                        <div class="flex gap-2">
+                            <a href="#" class="flex-1 bg-gradient-primary text-white px-2 sm:px-3 lg:px-4 py-2 sm:py-2.5 lg:py-3 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm hover:bg-gradient-hover transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2">
+                                <i class="fas fa-rocket text-xs sm:text-sm"></i>
+                                <span class="hidden xs:inline">Get Started</span>
+                                <span class="xs:hidden">Start</span>
+                            </a>
+                            <a href="#" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gray-100 dark:bg-gray-700 rounded-lg sm:rounded-xl flex items-center justify-center text-primary dark:text-primary-400 hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-colors">
+                                <i class="fas fa-info-circle text-xs sm:text-sm"></i>
+                            </a>
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+                <!-- Card 2: Advanced Analytics -->
+                <div class="service-card group bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-custom hover:shadow-custom-hover transition-all duration-500 hover:-translate-y-2 sm:hover:-translate-y-4">
+                    <div class="relative h-40 sm:h-44 md:h-48 overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
+                        <img src="image/service 3.jpg" 
+                             alt="Data Analytics"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-secondary/90 via-secondary/50 to-transparent"></div>
+                        
+                        <div class="absolute top-3 right-3 bg-white/20 dark:bg-white/10 backdrop-blur-sm p-1.5 sm:p-2 rounded-lg sm:rounded-xl">
+                            <i class="fas fa-chart-line text-white text-base sm:text-xl"></i>
+                        </div>
+                        
+                        <div class="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-16 bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-xl sm:rounded-2xl flex items-center justify-center border-2 border-white/30 icon-float">
+                                <i class="fas fa-chart-pie text-white text-xl sm:text-2xl lg:text-3xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 sm:p-5 lg:p-6">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
+                            <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white">Advanced Analytics</h3>
+                            <span class="px-2 sm:px-3 py-1 bg-secondary/10 dark:bg-secondary/20 text-secondary dark:text-secondary-300 text-xs font-semibold rounded-full">AI-POWERED</span>
+                        </div>
+                        
+                        
+                        
+                        <!-- Service Details -->
+                        <div class="space-y-2 sm:space-y-3 lg:space-y-4 mb-4 sm:mb-5 lg:mb-6">
+                            
+
+                            <!-- Predictive AI -->
+                            <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-7 sm:h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-brain text-purple-600 dark:text-purple-400 text-xs sm:text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-2xs sm:text-xs text-gray-500 dark:text-gray-400 block">Predictive AI</span>
+                                        <span class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">95% Acc</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-microchip text-primary dark:text-primary-400 text-xs sm:text-sm"></i>
+                            </div>
+
+                            <!-- Custom Dashboards -->
+                            <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-7 sm:h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-chart-bar text-blue-600 dark:text-blue-400 text-xs sm:text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-2xs sm:text-xs text-gray-500 dark:text-gray-400 block">Dashboards</span>
+                                        <span class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">Custom</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-paint-brush text-secondary dark:text-secondary-400 text-xs sm:text-sm"></i>
+                            </div>
+
+                            <!-- Reports -->
+                            <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-7 sm:h-8 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-file-alt text-orange-600 dark:text-orange-400 text-xs sm:text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-2xs sm:text-xs text-gray-500 dark:text-gray-400 block">Reports</span>
+                                        <span class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">Automated</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-envelope text-info dark:text-info-400 text-xs sm:text-sm"></i>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <a href="#" class="flex-1 bg-gradient-primary text-white px-2 sm:px-3 lg:px-4 py-2 sm:py-2.5 lg:py-3 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm hover:bg-gradient-hover transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2">
+                                <i class="fas fa-chart-simple text-xs sm:text-sm"></i>
+                                <span class="hidden xs:inline">View Analytics</span>
+                                <span class="xs:hidden">View</span>
+                            </a>
+                            <a href="#" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gray-100 dark:bg-gray-700 rounded-lg sm:rounded-xl flex items-center justify-center text-primary dark:text-primary-400 hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-colors">
+                                <i class="fas fa-chart-line text-xs sm:text-sm"></i>
+                            </a>
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+                <!-- Card 3: Security Suite -->
+                <div class="service-card group bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-custom hover:shadow-custom-hover transition-all duration-500 hover:-translate-y-2 sm:hover:-translate-y-4">
+                    <div class="relative h-40 sm:h-44 md:h-48 overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
+                        <img src="image/service 4.jpg" 
+                             alt="Security Suite"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-accent/90 via-accent/50 to-transparent"></div>
+                        
+                        <div class="absolute top-3 right-3 bg-white/20 dark:bg-white/10 backdrop-blur-sm p-1.5 sm:p-2 rounded-lg sm:rounded-xl">
+                             <i class="fas fa-lock text-white text-base sm:text-xl"></i>
+                        </div>
+                        
+                        <div class="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-16 bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-xl sm:rounded-2xl flex items-center justify-center border-2 border-white/30 icon-float">
+                                <i class="fas fa-shield-alt text-white text-xl sm:text-2xl lg:text-3xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 sm:p-5 lg:p-6">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
+                            <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white">Security Suite</h3>
+                            <span class="px-2 sm:px-3 py-1 bg-secondary/10 dark:bg-secondary/20 text-secondary dark:text-secondary-300 text-xs font-semibold rounded-full">ENTERPRISE</span>
+                        </div>
+                        
+                        
+                        
+                        <div class="space-y-2 sm:space-y-3 lg:space-y-4 mb-4 sm:mb-5 lg:mb-6">
+                            <!-- Encryption -->
+                            <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-7 sm:h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-lock text-red-600 dark:text-red-400 text-xs sm:text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-2xs sm:text-xs text-gray-500 dark:text-gray-400 block">Encryption</span>
+                                        <span class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">AES-256</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-check-circle text-success text-xs sm:text-sm"></i>
+                            </div>
+
+                            
+                            <!-- Uptime SLA -->
+                            <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-7 sm:h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-chart-line text-success text-xs sm:text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-2xs sm:text-xs text-gray-500 dark:text-gray-400 block">Uptime SLA</span>
+                                        <span class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">99.9%</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-shield text-info dark:text-info-400 text-xs sm:text-sm"></i>
+                            </div>
+
+                            <!-- Compliance -->
+                            <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-7 sm:h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-certificate text-green-600 dark:text-green-400 text-xs sm:text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-2xs sm:text-xs text-gray-500 dark:text-gray-400 block">Compliance</span>
+                                        <span class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">GDPR/SOC2</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-award text-secondary dark:text-secondary-400 text-xs sm:text-sm"></i>
+                            </div>
+
+                            
+                        </div>
+
+                        <div class="flex gap-2">
+                            <a href="#" class="flex-1 bg-gradient-primary text-white px-2 sm:px-3 lg:px-4 py-2 sm:py-2.5 lg:py-3 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm hover:bg-gradient-hover transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2">
+                                <i class="fas fa-shield-halved text-xs sm:text-sm"></i>
+                                <span class="hidden xs:inline">Secure Now</span>
+                                <span class="xs:hidden">Secure</span>
+                            </a>
+                            <a href="#" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gray-100 dark:bg-gray-700 rounded-lg sm:rounded-xl flex items-center justify-center text-primary dark:text-primary-400 hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-colors">
+                                <i class="fas fa-lock text-xs sm:text-sm"></i>
+                            </a>
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+                <!-- Card 4: AI & ML Solutions -->
+                <div class="service-card group bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-custom hover:shadow-custom-hover transition-all duration-500 hover:-translate-y-2 sm:hover:-translate-y-4">
+                    <div class="relative h-40 sm:h-44 md:h-48 overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
+                        <img src="image/service 5.jpg" 
+                             alt="AI Solutions"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-purple-600/90 via-purple-600/50 to-transparent"></div>
+                        
+                        <div class="absolute top-3 right-3 bg-white/20 dark:bg-white/10 backdrop-blur-sm p-1.5 sm:p-2 rounded-lg sm:rounded-xl">
+                            <i class="fas fa-robot text-white text-base sm:text-xl"></i>
+                        </div>
+                        
+                        <div class="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-16 bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-xl sm:rounded-2xl flex items-center justify-center border-2 border-white/30 icon-float">
+                                <i class="fas fa-brain text-white text-xl sm:text-2xl lg:text-3xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 sm:p-5 lg:p-6">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
+                            <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white">AI & ML Solutions</h3>
+                            <span class="px-2 sm:px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-semibold rounded-full">CUTTING-EDGE</span>
+                        </div>
+                        
+                        
+                        
+                        <div class="space-y-2 sm:space-y-3 lg:space-y-4 mb-4 sm:mb-5 lg:mb-6">
+                            <!-- ML Models -->
+                            <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-7 sm:h-8 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-cubes text-indigo-600 dark:text-indigo-400 text-xs sm:text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-2xs sm:text-xs text-gray-500 dark:text-gray-400 block">ML Models</span>
+                                        <span class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">Custom</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-microchip text-primary dark:text-primary-400 text-xs sm:text-sm"></i>
+                            </div>
+
+                            <!-- NLP -->
+                            <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-7 sm:h-8 bg-pink-100 dark:bg-pink-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-language text-pink-600 dark:text-pink-400 text-xs sm:text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-2xs sm:text-xs text-gray-500 dark:text-gray-400 block">NLP</span>
+                                        <span class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">Advanced</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-message text-secondary dark:text-secondary-400 text-xs sm:text-sm"></i>
+                            </div>
+
+                            
+
+                            <!-- Automation -->
+                            <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-6 h-6 sm:w-7 sm:h-8 bg-teal-100 dark:bg-teal-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-gears text-teal-600 dark:text-teal-400 text-xs sm:text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-2xs sm:text-xs text-gray-500 dark:text-gray-400 block">Automation</span>
+                                        <span class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">Smart</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-robot text-success text-xs sm:text-sm"></i>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <a href="#" class="flex-1 bg-gradient-primary text-white px-2 sm:px-3 lg:px-4 py-2 sm:py-2.5 lg:py-3 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm hover:bg-gradient-hover transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2">
+                                <i class="fas fa-robot text-xs sm:text-sm"></i>
+                                <span class="hidden xs:inline">Explore AI</span>
+                                <span class="xs:hidden">AI</span>
+                            </a>
+                            <a href="#" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gray-100 dark:bg-gray-700 rounded-lg sm:rounded-xl flex items-center justify-center text-primary dark:text-primary-400 hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-colors">
+                                <i class="fas fa-brain text-xs sm:text-sm"></i>
+                            </a>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    </section>
+
+    <!-- Smooth Scroll -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Responsive font sizes */
+        .text-2xs {
+            font-size: 0.65rem;
+        }
+        
+        @media (min-width: 640px) {
+            .xs\:inline {
+                display: inline;
+            }
+            .xs\:hidden {
+                display: none;
+            }
+        }
+        
+        /* Better touch targets on mobile */
+        @media (max-width: 640px) {
+            a, button {
+                min-height: 40px;
+                min-width: 40px;
+            }
+        }
+    </style>
+
+
+
+    <!-- Section 3: Service Benefits with Images -->
+    
+<section class="py-16 md:py-20 lg:py-24 bg-white dark:bg-gray-900">
+    <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+            <div class="inline-block mb-4">
+                <span class="text-3xl md:text-4xl lg:text-5xl font-bol  text-indigo-600 ">
+                    WHY CHOOSE US
+                </span>
+            </div>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                Powerful Benefits for Your Business
+            </h2>
+            <p class="text-gray-600 dark:text-gray-300 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+                Experience the difference with our enterprise-grade SaaS platform
+            </p>
+        </div>
+
+        <!-- Benefits Grid - 2 Columns on Desktop, 1 on Mobile -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            <!-- Card 1: Scalability -->
+            <div class="group bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-6 hover:shadow-xl hover:shadow-indigo-500/10 dark:hover:shadow-indigo-400/10 transition-all duration-300 border border-transparent hover:border-indigo-100 dark:hover:border-indigo-900">
+                <!-- Image -->
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden flex-shrink-0 ring-4 ring-white dark:ring-gray-700 shadow-lg">
+                    <img src="image/service 6.jpg" 
+                         alt="Scalability"
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                
+                <!-- Content -->
+                <div class="text-center sm:text-left">
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2 justify-center sm:justify-start">
+                        <i class="fas fa-chart-line text-indigo-600 dark:text-indigo-400 text-lg"></i>
+                        Unlimited Scalability
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                        Scale your operations seamlessly from startup to enterprise with our auto-scaling infrastructure.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 2: Cost Effective -->
+            <div class="group bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-6 hover:shadow-xl hover:shadow-indigo-500/10 dark:hover:shadow-indigo-400/10 transition-all duration-300 border border-transparent hover:border-indigo-100 dark:hover:border-indigo-900">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden flex-shrink-0 ring-4 ring-white dark:ring-gray-700 shadow-lg">
+                    <img src="image/service 7.jpg" 
+                         alt="Cost Effective"
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                
+                <div class="text-center sm:text-left">
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2 justify-center sm:justify-start">
+                        <i class="fas fa-coins text-indigo-600 dark:text-indigo-400 text-lg"></i>
+                        Cost Effective
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                        Pay only for what you use with our flexible pricing models. Reduce IT infrastructure costs by 60%.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 3: Bank-Level Security -->
+            <div class="group bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-6 hover:shadow-xl hover:shadow-indigo-500/10 dark:hover:shadow-indigo-400/10 transition-all duration-300 border border-transparent hover:border-indigo-100 dark:hover:border-indigo-900">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden flex-shrink-0 ring-4 ring-white dark:ring-gray-700 shadow-lg">
+                    <img src="image/service 8.jpg" 
+                         alt="Security"
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                
+                <div class="text-center sm:text-left">
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2 justify-center sm:justify-start">
+                        <i class="fas fa-shield-alt text-indigo-600 dark:text-indigo-400 text-lg"></i>
+                        Bank-Level Security
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                        Enterprise-grade security with end-to-end encryption, regular audits, and compliance certifications.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 4: Easy Integration -->
+            <div class="group bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-6 hover:shadow-xl hover:shadow-indigo-500/10 dark:hover:shadow-indigo-400/10 transition-all duration-300 border border-transparent hover:border-indigo-100 dark:hover:border-indigo-900">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden flex-shrink-0 ring-4 ring-white dark:ring-gray-700 shadow-lg">
+                    <img src="image/service 9.jpg" 
+                         alt="Integration"
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                
+                <div class="text-center sm:text-left">
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2 justify-center sm:justify-start">
+                        <i class="fas fa-plug text-indigo-600 dark:text-indigo-400 text-lg"></i>
+                        Easy Integration
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                        Seamlessly integrate with 150+ popular tools and services through our robust API.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+    <!-- Section 4: Enterprise-Grade SaaS Platform - Pure Tailwind CSS -->
+<section class="py-16 md:py-20 lg:py-24 bg-gray-700 dark:bg-gray-800">
+    <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+            <!-- Platform Image -->
+            <div class="order-2 lg:order-1">
+                <div class="rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl shadow-black/50 group">
+                    <img src="image/home 1-1.webp" 
+                         alt="SaaS Dashboard"
+                         class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700">
+                </div>
+            </div>
+            
+            <!-- Platform Content -->
+            <div class="order-1 lg:order-2">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                    Enterprise-Grade SaaS Platform
+                </h2>
+                
+                <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-8">
+                    Our comprehensive platform combines cutting-edge technology with intuitive design to deliver unparalleled business value. Built for scale, security, and performance.
+                </p>
+                
+                <!-- Features Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    <!-- Feature 1 -->
+                    <div class="flex items-center gap-3 group hover:bg-gray-800/50 p-3 rounded-xl transition-all duration-300">
+                        <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-check text-white text-sm"></i>
+                        </div>
+                        <span class="text-gray-200 text-sm md:text-base">Multi-tenant architecture</span>
+                    </div>
+                    
+                    <!-- Feature 2 -->
+                    <div class="flex items-center gap-3 group hover:bg-gray-800/50 p-3 rounded-xl transition-all duration-300">
+                        <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-check text-white text-sm"></i>
+                        </div>
+                        <span class="text-gray-200 text-sm md:text-base">99.9% uptime SLA</span>
+                    </div>
+                    
+                    <!-- Feature 3 -->
+                    <div class="flex items-center gap-3 group hover:bg-gray-800/50 p-3 rounded-xl transition-all duration-300">
+                        <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-check text-white text-sm"></i>
+                        </div>
+                        <span class="text-gray-200 text-sm md:text-base">Advanced API</span>
+                    </div>
+                    
+                    <!-- Feature 4 -->
+                    <div class="flex items-center gap-3 group hover:bg-gray-800/50 p-3 rounded-xl transition-all duration-300">
+                        <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-check text-white text-sm"></i>
+                        </div>
+                        <span class="text-gray-200 text-sm md:text-base">Custom workflows</span>
+                    </div>
+                    
+                    <!-- Feature 5 -->
+                    <div class="flex items-center gap-3 group hover:bg-gray-800/50 p-3 rounded-xl transition-all duration-300">
+                        <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-check text-white text-sm"></i>
+                        </div>
+                        <span class="text-gray-200 text-sm md:text-base">Real-time analytics</span>
+                    </div>
+                    
+                    <!-- Feature 6 -->
+                    <div class="flex items-center gap-3 group hover:bg-gray-800/50 p-3 rounded-xl transition-all duration-300">
+                        <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-check text-white text-sm"></i>
+                        </div>
+                        <span class="text-gray-200 text-sm md:text-base">Automated backups</span>
+                    </div>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="flex flex-wrap gap-3 mt-6">
+                    <span class="px-4 py-2 bg-gray-800/50 rounded-full text-xs md:text-sm text-gray-300 flex items-center gap-2 border border-gray-700">
+                        <i class="fas fa-shield-alt text-indigo-400"></i>
+                        SOC2 Type II
+                    </span>
+                    <span class="px-4 py-2 bg-gray-800/50 rounded-full text-xs md:text-sm text-gray-300 flex items-center gap-2 border border-gray-700">
+                        <i class="fas fa-lock text-indigo-400"></i>
+                        GDPR Compliant
+                    </span>
+                    <span class="px-4 py-2 bg-gray-800/50 rounded-full text-xs md:text-sm text-gray-300 flex items-center gap-2 border border-gray-700">
+                        <i class="fas fa-cloud text-indigo-400"></i>
+                        ISO 27001
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+  <footer class="bg-gray-900 dark:bg-gray-950 text-white pt-10 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 mb-10">
+                
+                <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                    <a href="index.html" class="log mb-3">
+                        <span class="font-black text-2xl bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">GrowwSaas</span>
+                    </a>
+                    
+                    <p class="text-gray-400 dark:text-gray-400 text-xs sm:text-sm mb-4 leading-relaxed text-left max-w-sm">
+                        Modern SaaS platform helping businesses scale with powerful tools and automation.
+                    </p>
+                    
+                    <div class="flex gap-3">
+                        <a href="#" class="w-8 h-8 bg-gray-800 dark:bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-all">
+                            <i class="fab fa-facebook-f text-xs text-white"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-gray-800 dark:bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-all">
+                            <i class="fab fa-twitter text-xs text-white"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-gray-800 dark:bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition-all">
+                            <i class="fab fa-linkedin-in text-xs text-white"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-span-1 flex flex-col items-start">
+                    <h4 class="font-bold text-sm sm:text-base mb-4 text-blue-400 dark:text-blue-400 uppercase tracking-wider">Links</h4>
+                    <ul class="space-y-2 text-gray-400 dark:text-gray-400 text-xs sm:text-sm text-left">
+                        <li><a href="index.html" class="hover:text-white dark:hover:text-white transition-colors">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white dark:hover:text-white transition-colors">About</a></li>
+                        <li><a href="services.html" class="hover:text-white dark:hover:text-white transition-colors">Services</a></li>
+                        <li><a href="price.html" class="hover:text-white dark:hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="features.html" class="hover:text-white dark:hover:text-white transition-colors">Features</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-1 flex flex-col items-start">
+                    <h4 class="font-bold text-sm sm:text-base mb-4 text-blue-400 dark:text-blue-400 uppercase tracking-wider">Help</h4>
+                    <ul class="space-y-2 text-gray-400 dark:text-gray-400 text-xs sm:text-sm text-left">
+                        <li><a href="#" class="hover:text-white dark:hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white dark:hover:text-white transition-colors">Support</a></li>
+                        <li><a href="#" class="hover:text-white dark:hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-white dark:hover:text-white transition-colors">Saas</a></li>
+                        <li><a href="#" class="hover:text-white dark:hover:text-white transition-colors">Privacy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                    <h4 class="font-bold text-sm sm:text-base mb-4 text-blue-400 dark:text-blue-400 uppercase tracking-wider">Contact</h4>
+                    <div class="grid grid-cols-2 lg:grid-cols-1 gap-4 w-full">
+                        <div class="flex items-start gap-2 text-gray-400 dark:text-gray-400 text-xs sm:text-sm">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i>
+                            <span>Bangalore, India</span>
+                        </div>
+                        <div class="flex items-start gap-2 text-gray-400 dark:text-gray-400 text-xs sm:text-sm">
+                            <i data-lucide="mail" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i>
+                            <a href="mailto:hello@growwsaas.com" class="break-all">hello@growwsaas.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-gray-800 dark:border-gray-800 flex flex-row justify-between items-center text-gray-500 dark:text-gray-500 text-[10px] sm:text-xs">
+                <p>© 2026 GrowwSaas</p>
+                <div class="flex gap-3">
+                    <a href="#" class="hover:text-white dark:hover:text-white">Terms</a>
+                    <a href="#" class="hover:text-white dark:hover:text-white">Cookies</a>
+                </div>
+                <div class="hidden sm:flex items-center gap-1">
+                    <i class="fas fa-shield-alt text-blue-500"></i>
+                    <span class="text-[10px]">Secure</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        /* Standardized Alignment for all devices */
+        footer .flex-col {
+            align-items: flex-start;
+        }
+
+        @media (max-width: 639px) {
+            footer h4 {
+                font-size: 0.8rem;
+                margin-bottom: 0.75rem;
+            }
+            footer p, footer li {
+                font-size: 0.75rem;
+            }
+            .grid-cols-2 {
+                gap-x: 4;
+            }
+        }
+        
+        footer a {
+            transition: all 0.2s ease-in-out;
+        }
+        
+        @media (max-width: 768px) {
+            footer li a {
+                padding: 2px 0;
+                display: inline-block;
+            }
+        }
+    </style>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

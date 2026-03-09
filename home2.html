@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>GrowwSaas - Home-2</title>
+    <link rel="icon" type="image/jpg" href="image/growwpark_logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#3b82f6', 
+                        secondary: '#10b981',
+                        darkBg: '#0f172a'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                } 
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+       :root {
+            --primary-dark: #0a1929;
+            --primary-medium: #1e3a6f;
+            --primary-light: #3b6e9e;
+            --accent-blue: #4d8cff;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-muted: #a0a0a0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        body.light {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        body.dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        body.menu-open {
+            overflow: hidden;
+        }
+        
+        /* Floating Navbar - Blue Theme */
+        .navbar {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            
+            transition: all 0.3s ease;
+        }
+        
+        .dark .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3);
+        }
+        
+        
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #3b82f6;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-text {
+            font-weight: 900;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .dark .logo-text {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Nav Links - Perfect Blue Theme */
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 40px;
+            color: #1e293b;
+            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .dark .nav-link {
+            color: #e2e8f0;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link i {
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-link:hover i,
+        .nav-link.active i {
+            color: white;
+            transform: rotate(180deg);
+        }
+        
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            margin-top: 15px;
+            min-width: 220px;
+            background: white;
+            border-radius: 24px;
+            padding: 12px;
+            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .dark .dropdown-menu {
+            background: #1e293b;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        
+        .dropdown-group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 16px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .dark .dropdown-item {
+            color: #e2e8f0;
+        }
+        
+        .dropdown-item i {
+            width: 18px;
+            color: #3b82f6;
+        }
+        
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .dropdown-item:hover i {
+            color: white;
+        }
+        
+        .dropdown-item.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+        }
+        
+        .dropdown-item.active i {
+            color: white;
+        }
+        
+        /* Full Screen Mobile Menu */
+        #mobileMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .dark #mobileMenu {
+            background: rgba(15, 23, 42, 0.98);
+        }
+        
+        #mobileMenu.open {
+            transform: translateX(0);
+        }
+        
+        /* Mobile Header */
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 30px;
+        }
+        
+        /* Close Button */
+        .close-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: white;
+            border: none;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+        
+        /* Mobile Links - Blue Theme */
+        .mobile-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #1e293b;
+            background: white;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.1);
+            text-decoration: none;
+        }
+        
+        .dark .mobile-link {
+            color: #e2e8f0;
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+        
+        .mobile-link:hover,
+        .mobile-link.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            transform: translateX(10px);
+            border-color: transparent;
+        }
+        
+        .mobile-link:hover i,
+        .mobile-link.active i {
+            color: white;
+        }
+        
+        /* Mobile Submenu */
+        .mobile-submenu {
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 2px solid #3b82f6;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .mobile-submenu.open {
+            display: block;
+        }
+        
+        .mobile-submenu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border-radius: 16px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: white;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .dark .mobile-submenu a {
+            color: #e2e8f0;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .mobile-submenu a:hover,
+        .mobile-submenu a.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            transform: translateX(10px);
+            border-color: transparent;
+        }
+        
+        .mobile-submenu a:hover i,
+        .mobile-submenu a.active i {
+            color: white;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 45px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.5);
+        }
+        
+        /* Settings Section */
+        .settings-section {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 30px;
+            padding: 24px;
+            margin-top: 30px;
+        }
+        
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
+        
+        .settings-label {
+            font-weight: 600;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dark .settings-label {
+            color: #e2e8f0;
+        }
+        
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .mobile-toggle {
+                display: none !important;
+            }
+            .desktop-menu {
+                display: flex !important;
+            }
+            .desktop-auth {
+                display: block !important;
+            }
+        }
+        
+        /* iPad Pro Specific */
+        @media (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+        }
+        
+        
+        
+        /* Main Content Padding */
+        .main-content {
+            padding-top: 100px;
+        }
+    </style>
+</head>
+<body class="light font-inter">
+
+    <!-- Navbar - Perfect Blue Theme -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 py-2">
+            <div class="flex items-center justify-between">
+                
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <span class="logo-text">GrowwSaas</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu items-center gap-1">
+                    <!-- Home Dropdown -->
+                    <div class="dropdown-group relative">
+                        <button class="nav-link active">
+                            Home <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="index.html" class="dropdown-item ">
+                                
+                                Home 1
+                            </a>
+                            <a href="home2.html" class="dropdown-item active">
+                                
+                                Home 2
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- About -->
+                    <a href="about.html" class="nav-link">
+                        About
+                    </a>
+
+                    <!-- Services -->
+                    <a href="services.html" class="nav-link">
+                        Services
+                    </a>
+
+                    <!-- Pricing -->
+                    <a href="price.html" class="nav-link">
+                        Pricing
+                    </a>
+
+                    <!-- Features -->
+                    <a href="features.html" class="nav-link">
+                        Features
+                    </a>
+
+                    <!-- Dashboard Dropdown -->
+                    <div class="dropdown-group relative">
+                        <button class="nav-link">
+                            Dashboard <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="admin.html" class="dropdown-item">
+                                
+                                Admin Panel
+                            </a>
+                            <a href="user.html" class="dropdown-item">
+                                
+                                User Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="flex items-center gap-2">
+                    <!-- Theme & Direction -->
+                    <div class="desktop-menu flex items-center gap-2">
+                        <button onclick="toggleDirection()" class="action-btn float-animation">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        </button>
+                        <button onclick="toggleTheme()" class="action-btn float-animation">
+                            <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                            <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Auth Dropdown -->
+                    <div class="desktop-auth dropdown-group relative">
+                        <button class="action-btn">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu" style="right: 0; left: auto;">
+                            <a href="login.html" class="dropdown-item">
+                                <i data-lucide="log-in"></i>
+                                Login
+                            </a>
+                            <a href="signup.html" class="dropdown-item">
+                                <i data-lucide="user-plus"></i>
+                                Signup
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()" class="mobile-toggle action-btn">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Full Screen Mobile Menu -->
+    <div id="mobileMenu">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <a href="index.html" class="logo">
+                <span class="logo-text">GrowwSaas</span>
+            </a>
+            <button onclick="toggleMobileMenu()" class="close-btn">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="px-4">
+            <!-- Home Section -->
+            <button onclick="toggleMobileSubmenu('mobileHomeSub')" class="mobile-link active">
+                <span>
+                    
+                    HOME
+                </span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="homeSubIcon"></i>
+            </button>
+            <div id="mobileHomeSub" class="mobile-submenu open">
+                <a href="index.html" onclick="closeMobileMenu()" >
+                    
+                    HOME 1
+                </a>
+                <a href="home2.html" onclick="closeMobileMenu()" class="active">
+                
+                    HOME 2
+                </a>
+            </div>
+
+            <!-- About -->
+            <a href="about.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>
+                
+                    ABOUT
+                </span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Services -->
+            <a href="services.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>
+                    
+                    SERVICES
+                </span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Pricing -->
+            <a href="price.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>
+                    
+                    PRICING
+                </span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Features -->
+            <a href="features.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>
+                    
+                    FEATURES
+                </span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Dashboard Section -->
+            <button onclick="toggleMobileSubmenu('mobileDashSub')" class="mobile-link">
+                <span>
+                    
+                    DASHBOARD
+                </span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="dashSubIcon"></i>
+            </button>
+            <div id="mobileDashSub" class="mobile-submenu">
+                <a href="admin.html" onclick="closeMobileMenu()">
+                
+                    ADMIN
+                </a>
+                <a href="user.html" onclick="closeMobileMenu()">
+                    
+                    USER
+                </a>
+            </div>
+
+            <!-- Auth Section -->
+            <button onclick="toggleMobileSubmenu('mobileAuthSub')" class="mobile-link">
+                <span>
+                    <i data-lucide="log-in" class="w-5 h-5 inline mr-2"></i>
+                    ACCOUNT
+                </span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="authSubIcon"></i>
+            </button>
+            <div id="mobileAuthSub" class="mobile-submenu">
+                <a href="login.html" onclick="closeMobileMenu()">
+                    <i data-lucide="log-in"></i>
+                    LOGIN
+                </a>
+                <a href="signup.html" onclick="closeMobileMenu()">
+                    <i data-lucide="user-plus"></i>
+                    SIGNUP
+                </a>
+            </div>
+
+            <!-- Settings -->
+            <div class="settings-section">
+                <div class="settings-item">
+                    <span class="settings-label">
+                        <i class="fa-solid fa-arrow-right-arrow-left text-primary"></i>
+                        DIRECTION
+                    </span>
+                    <button onclick="toggleDirection()" class="action-btn">
+                        <i class="fa-solid fa-left-right"></i>
+                    </button>
+                </div>
+                <div class="settings-item">
+                    <span class="settings-label">
+                        <i data-lucide="moon" class="w-5 h-5"></i>
+                        THEME
+                    </span>
+                    <button onclick="toggleTheme()" class="action-btn">
+                        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.toggle('open');
+            body.classList.toggle('menu-open');
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.remove('open');
+            body.classList.remove('menu-open');
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        // Mobile Submenu Toggle
+        function toggleMobileSubmenu(submenuId) {
+            const submenu = document.getElementById(submenuId);
+            const button = submenu.previousElementSibling;
+            const icon = button.querySelector('i:last-child');
+            
+            // Close other submenus
+            document.querySelectorAll('.mobile-submenu').forEach(menu => {
+                if (menu.id !== submenuId && menu.classList.contains('open')) {
+                    menu.classList.remove('open');
+                    const prevButton = menu.previousElementSibling;
+                    const prevIcon = prevButton.querySelector('i:last-child');
+                    if (prevIcon) {
+                        prevIcon.style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+            
+            // Toggle current submenu
+            submenu.classList.toggle('open');
+            
+            // Rotate icon
+            if (icon) {
+                icon.style.transform = submenu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const body = document.body;
+            
+            html.classList.toggle('dark');
+            body.classList.toggle('dark');
+            
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+        }
+
+        // Direction Toggle
+        function toggleDirection() {
+            const html = document.documentElement;
+            html.dir = html.dir === 'rtl' ? 'ltr' : 'rtl';
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+
+        // Close menu with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const mobileMenu = document.getElementById('mobileMenu');
+                if (mobileMenu.classList.contains('open')) {
+                    closeMobileMenu();
+                }
+            }
+        });
+
+        // Close dropdowns when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown-group')) {
+                document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+                    dropdown.style.opacity = '0';
+                    dropdown.style.visibility = 'hidden';
+                });
+            }
+        });
+    </script>
+
+
+
+
+
+  <style>
+        
+        
+        /* Dark blue theme */
+        :root {
+            --primary-dark: #0a1929;
+            --primary-medium: #1e3a6f;
+            --primary-light: #3b6e9e;
+            --accent-blue: #4d8cff;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-muted: #a0a0a0;
+        }
+        
+        
+        
+        /* Custom animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Gradient text - blue only */
+        .gradient-text {
+            background: linear-gradient(135deg, #4d8cff 0%, #2979ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        
+        
+        /* Glass morphism */
+        .glass-card {
+            background: rgba(10, 25, 41, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(77, 140, 255, 0.2);
+        }
+        
+        /* Hero pattern */
+        .hero-pattern {
+            background-image: radial-gradient(circle at 30% 50%, rgba(77, 140, 255, 0.1) 0%, transparent 50%);
+        }
+        
+        /* Card hover effects */
+        .hover-card {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(77, 140, 255, 0.3);
+            border-color: #4d8cff;
+        }
+        
+        /* Responsive text */
+        @media (max-width: 640px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            .text-responsive { font-size: 0.875rem; }
+        }
+    </style>
+
+
+    
+
+    <!-- HERO SECTION - Centered with white text and background image -->
+<section id="home" class="relative min-h-screen flex items-center pt-16 overflow-hidden">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0">
+        <img src="image/home2 -1.jpg" 
+             alt="Modern office background" 
+             class="w-full h-full object-cover">
+        <!-- Dark Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-900/95 to-gray-800/90"></div>
+    </div>
+    
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 hero-pattern"></div>
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-[#4d8cff] rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-[#2979ff] rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full z-10">
+        <div class="max-w-4xl mx-auto text-center">
+            <!-- Trust Badge -->
+            <div class="inline-flex items-center gap-2 bg-[#1e3a6f] px-4 py-2 rounded-full mb-8 border border-[#4d8cff]/30">
+                <i class="fas fa-shield-alt text-[#4d8cff]"></i>
+                <span class="text-sm font-semibold text-gray-300">Trusted by 10,000+ enterprises worldwide</span>
+            </div>
+            
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
+                <span class="block">Transform Your</span>
+                <span class="text-[#4d8cff]">Business Workflow</span>
+                <span class="block">with AI-Powered Automation</span>
+            </h1>
+            
+            <p class="text-base sm:text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                CloudFlow helps enterprises streamline operations, automate repetitive tasks, and make data-driven decisions with our intelligent SaaS platform. Used by Fortune 500 companies worldwide.
+            </p>
+            
+            <div class="flex flex-wrap gap-4 justify-center mb-12">
+                <a href="#" class="bg-gradient-to-r from-[#4d8cff] to-[#2979ff] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:shadow-xl hover:shadow-[#4d8cff]/30 transition transform hover:scale-105 flex items-center gap-2">
+                    <i class="fas fa-rocket"></i> Start Free Trial
+                </a>
+                <a href="#" class="border-2 border-[#4d8cff] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-[#4d8cff] hover:text-white transition flex items-center gap-2">
+                    <i class="fas fa-play-circle"></i> Watch Demo
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- ACHIEVEMENTS SECTION - 2 columns on mobile -->
+    <section class="py-12 sm:py-16 bg-white dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                <div class="glass-card p-4 sm:p-6 rounded-2xl text-center hover-card">
+                    <i class="fas fa-trophy text-2xl sm:text-4xl text-[#4d8cff] mb-2 sm:mb-3"></i>
+                    <h3 class="text-xl sm:text-3xl font-black text-white">25+</h3>
+                    <p class="text-xs sm:text-sm text-gray-200">Industry Awards</p>
+                </div>
+                <div class="glass-card p-4 sm:p-6 rounded-2xl text-center hover-card">
+                    <i class="fas fa-users text-2xl sm:text-4xl text-[#4d8cff] mb-2 sm:mb-3"></i>
+                    <h3 class="text-xl sm:text-3xl font-black text-white">50k+</h3>
+                    <p class="text-xs sm:text-sm text-gray-200">Active Users</p>
+                </div>
+                <div class="glass-card p-4 sm:p-6 rounded-2xl text-center hover-card">
+                    <i class="fas fa-code-branch text-2xl sm:text-4xl text-[#4d8cff] mb-2 sm:mb-3"></i>
+                    <h3 class="text-xl sm:text-3xl font-black text-white">200+</h3>
+                    <p class="text-xs sm:text-sm text-gray-200">Integrations</p>
+                </div>
+                <div class="glass-card p-4 sm:p-6 rounded-2xl text-center hover-card">
+                    <i class="fas fa-globe text-2xl sm:text-4xl text-[#4d8cff] mb-2 sm:mb-3"></i>
+                    <h3 class="text-xl sm:text-3xl font-black text-white">40+</h3>
+                    <p class="text-xs sm:text-sm text-gray-200">Countries</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION - Clean Cards with Light/Dark Support -->
+<section id="features" class="py-16 sm:py-20 lg:py-24 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16 lg:mb-20">
+            <span class="inline-block text-[#4d8cff] font-semibold tracking-wider text-sm sm:text-base uppercase mb-3">
+                Powerful Features
+            </span>
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                Everything you need to <span class="text-[#4d8cff]">scale your business</span>
+            </h2>
+            <p class="text-base sm:text-lg text-gray-700 dark:text-gray-400 max-w-2xl mx-auto">
+                Comprehensive tools designed to streamline your entire business operations with enterprise-grade security and performance.
+            </p>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            <!-- Feature 1 - AI Automation -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-700 hover:border-[#4d8cff] dark:hover:border-[#4d8cff] hover:shadow-xl hover:shadow-[#4d8cff]/10 dark:hover:shadow-[#4d8cff]/5 transition-all duration-300 group">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-blue-50 dark:bg-[#1e3a6f] rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-robot text-xl sm:text-2xl lg:text-3xl text-[#4d8cff]"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">AI Automation</h3>
+                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-5">Intelligent workflows that learn and adapt to your business processes automatically.</p>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>Smart routing & prioritization</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>Predictive analytics & forecasting</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>Automated decision making</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Feature 2 - Real-time Analytics -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-700 hover:border-[#4d8cff] dark:hover:border-[#4d8cff] hover:shadow-xl hover:shadow-[#4d8cff]/10 dark:hover:shadow-[#4d8cff]/5 transition-all duration-300 group">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-blue-50 dark:bg-[#1e3a6f] rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-chart-line text-xl sm:text-2xl lg:text-3xl text-[#4d8cff]"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">Real-time Analytics</h3>
+                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-5">Live dashboards and actionable insights to make data-driven decisions instantly.</p>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>Custom interactive dashboards</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>Real-time KPI tracking</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>Automated reporting</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Feature 3 - Enterprise Security -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-700 hover:border-[#4d8cff] dark:hover:border-[#4d8cff] hover:shadow-xl hover:shadow-[#4d8cff]/10 dark:hover:shadow-[#4d8cff]/5 transition-all duration-300 group">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-blue-50 dark:bg-[#1e3a6f] rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-shield-alt text-xl sm:text-2xl lg:text-3xl text-[#4d8cff]"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">Enterprise Security</h3>
+                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-5">Bank-level encryption and compliance with global security standards.</p>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>End-to-end encryption</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>SOC2 Type II certified</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>GDPR & HIPAA compliant</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Feature 4 - Cloud Integration -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-700 hover:border-[#4d8cff] dark:hover:border-[#4d8cff] hover:shadow-xl hover:shadow-[#4d8cff]/10 dark:hover:shadow-[#4d8cff]/5 transition-all duration-300 group">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-blue-50 dark:bg-[#1e3a6f] rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-cloud text-xl sm:text-2xl lg:text-3xl text-[#4d8cff]"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">Cloud Integration</h3>
+                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-5">Seamless integration with major cloud providers and hybrid deployment.</p>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>AWS, Azure, Google Cloud</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>Hybrid & multi-cloud</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>Automatic scaling</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Feature 5 - API First -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-700 hover:border-[#4d8cff] dark:hover:border-[#4d8cff] hover:shadow-xl hover:shadow-[#4d8cff]/10 dark:hover:shadow-[#4d8cff]/5 transition-all duration-300 group">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-blue-50 dark:bg-[#1e3a6f] rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-code text-xl sm:text-2xl lg:text-3xl text-[#4d8cff]"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">API First</h3>
+                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-5">Extensive APIs and webhooks for custom integrations and automation.</p>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>RESTful & GraphQL APIs</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>Webhook support</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>SDKs for all platforms</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Feature 6 - 24/7 Support -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-700 hover:border-[#4d8cff] dark:hover:border-[#4d8cff] hover:shadow-xl hover:shadow-[#4d8cff]/10 dark:hover:shadow-[#4d8cff]/5 transition-all duration-300 group">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-blue-50 dark:bg-[#1e3a6f] rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-headset text-xl sm:text-2xl lg:text-3xl text-[#4d8cff]"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">24/7 Premium Support</h3>
+                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-5">Round-the-clock assistance from our expert support team.</p>
+                <ul class="space-y-2 sm:space-y-3">
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>Live chat & phone support</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>Dedicated account manager</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-check-circle text-[#4d8cff] text-sm sm:text-base"></i>
+                        <span>99.9% uptime SLA</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Bottom CTA -->
+        <div class="text-center mt-12 sm:mt-16 lg:mt-20">
+            <a href="#" class="inline-flex items-center gap-2 bg-[#4d8cff] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-semibold hover:bg-[#3a7ae0] transition-all duration-300 hover:shadow-xl hover:shadow-[#4d8cff]/30 transform hover:scale-105">
+                View All Features
+                <i class="fas fa-arrow-right text-sm"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- SOLUTIONS SECTION - Full Page Layout with White Background -->
+<section id="solutions" class="min-h-screen py-16 sm:py-20 lg:py-24 bg-white  dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16 lg:mb-20">
+            <span class="inline-block text-[#4d8cff] font-semibold tracking-wider text-sm sm:text-base uppercase mb-3">
+                Industry Solutions
+            </span>
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 dark:text-white">
+                Tailored for <span class="text-[#4d8cff]">every industry</span>
+            </h2>
+            <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto dark:text-white">
+                Specialized solutions for your unique business needs. We help companies across various sectors transform their workflows.
+            </p>
+        </div>
+
+        <!-- Solutions Grid - 4 cards in a row on desktop -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            <!-- Solution 1 - Finance -->
+            <div class="group bg-gray-200  dark:bg-gray-900 p-6 sm:p-8 rounded-2xl text-center hover:bg-gray-50 transition-all duration-300 border border-gray-200 hover:border-[#4d8cff] hover:shadow-xl hover:shadow-[#4d8cff]/10">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:bg-blue-50 transition-colors duration-300">
+                    <i class="fas fa-bank text-2xl sm:text-3xl lg:text-4xl text-[#4d8cff]"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 dark:text-white">Finance</h3>
+                <p class="text-sm sm:text-base text-gray-600 mb-4">Secure compliance & risk management solutions for financial institutions.</p>
+                <a href="#" class="inline-flex items-center text-[#4d8cff] text-sm sm:text-base font-semibold group-hover:gap-2 transition-all">
+                    Learn More <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                </a>
+            </div>
+
+            <!-- Solution 2 - Healthcare -->
+            <div class="group bg-gray-200 dark:bg-gray-900 p-6 sm:p-8 rounded-2xl text-center hover:bg-gray-50  transition-all duration-300 border border-gray-200 hover:border-[#4d8cff] hover:shadow-xl hover:shadow-[#4d8cff]/10">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:bg-blue-50 transition-colors duration-300">
+                    <i class="fas fa-hospital text-2xl sm:text-3xl lg:text-4xl text-[#4d8cff]"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2">Healthcare</h3>
+                <p class="text-sm sm:text-base text-gray-600 mb-4">HIPAA compliant solutions for patient data management and telemedicine.</p>
+                <a href="#" class="inline-flex items-center text-[#4d8cff] text-sm sm:text-base font-semibold group-hover:gap-2 transition-all">
+                    Learn More <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                </a>
+            </div>
+
+            <!-- Solution 3 - Retail -->
+            <div class="group bg-gray-200 dark:bg-gray-900 p-6 sm:p-8 rounded-2xl text-center hover:bg-gray-50 transition-all duration-300 border border-gray-200 hover:border-[#4d8cff] hover:shadow-xl hover:shadow-[#4d8cff]/10">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:bg-blue-50 transition-colors duration-300">
+                    <i class="fas fa-store text-2xl sm:text-3xl lg:text-4xl text-[#4d8cff]"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 dark:text-white">Retail</h3>
+                <p class="text-sm sm:text-base text-gray-600 mb-4">Smart inventory management and omnichannel solutions for modern retail.</p>
+                <a href="#" class="inline-flex items-center text-[#4d8cff] text-sm sm:text-base font-semibold group-hover:gap-2 transition-all">
+                    Learn More <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                </a>
+            </div>
+
+            <!-- Solution 4 - Manufacturing -->
+            <div class="group bg-gray-200 dark:bg-gray-900 p-6 sm:p-8 rounded-2xl text-center hover:bg-gray-50  transition-all duration-300 border border-gray-200 hover:border-[#4d8cff] hover:shadow-xl hover:shadow-[#4d8cff]/10">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:bg-blue-50 transition-colors duration-300">
+                    <i class="fas fa-gear text-2xl sm:text-3xl lg:text-4xl text-[#4d8cff]"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 dark:text-white">Manufacturing</h3>
+                <p class="text-sm sm:text-base text-gray-600 mb-4">End-to-end supply chain optimization and predictive maintenance.</p>
+                <a href="#" class="inline-flex items-center text-[#4d8cff] text-sm sm:text-base font-semibold group-hover:gap-2 transition-all">
+                    Learn More <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                </a>
+            </div>
+        </div>
+
+        
+
+        <!-- CTA Button -->
+        <div class="text-center mt-12 sm:mt-16 lg:mt-20">
+            <a href="#" class="inline-flex items-center gap-2 bg-[#4d8cff] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold hover:bg-[#3a7ae0] transition-all duration-300 hover:shadow-lg hover:shadow-[#4d8cff]/20">
+                View All Solutions
+                <i class="fas fa-arrow-right text-sm"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT SECTION - Full Page Layout with Light/Dark Support (Image on Right) -->
+<section id="about" class="min-h-screen py-16 sm:py-20 lg:py-24 bg-gray-200 dark:bg-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16 lg:mb-20">
+        
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                Leading the <span class="text-[#4d8cff]">Digital Transformation</span>
+            </h2>
+            <p class="text-base sm:text-lg text-gray-700 dark:text-gray-400 max-w-2xl mx-auto">
+                We help businesses automate workflows and achieve digital excellence through innovative solutions.
+            </p>
+        </div>
+
+        <!-- Main Content Grid - Image on Right -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
+            <!-- Left Column - Content (Now on Left) -->
+            <div class="space-y-6 sm:space-y-8 order-2 lg:order-1">
+                
+
+                <!-- Main Content -->
+                <div class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-xl">
+                    <span class="text-[#4d8cff] font-semibold tracking-wider text-sm sm:text-base flex items-center gap-2 mb-4">
+                        <i class="fas fa-gem"></i> Our Story
+                    </span>
+                    
+                    <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                        Leading the <span class="text-[#4d8cff]">Transformation</span>
+                    </h3>
+                    
+                    <p class="text-sm sm:text-base text-gray-700 dark:text-gray-400 mb-6 leading-relaxed">
+                        Founded in 2018, CloudFlow has helped over 500+ companies automate their workflows and transform their business operations. We combine cutting-edge technology with practical solutions to deliver real results.
+                    </p>
+                    
+                    <!-- Features List -->
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                            <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#4d8cff]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fas fa-check text-xs sm:text-sm text-[#4d8cff]"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm sm:text-base text-gray-900 dark:text-white"><span class="font-bold">AI-First Approach:</span> Intelligent automation solutions</p>
+                                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Machine learning and predictive analytics</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                            <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#4d8cff]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fas fa-check text-xs sm:text-sm text-[#4d8cff]"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm sm:text-base text-gray-900 dark:text-white"><span class="font-bold">Bank-Level Security:</span> Enterprise-grade encryption</p>
+                                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">HIPAA & GDPR compliant</p>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                        <a href="about.html" class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#4d8cff] to-[#2979ff] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-semibold hover:shadow-lg hover:shadow-[#4d8cff]/30 transform hover:scale-105 transition-all duration-300">
+                            <i class="fas fa-scroll"></i> Read Full Story
+                            <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                        
+                        <a href="#contact" class="inline-flex items-center justify-center gap-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transform hover:scale-105 transition-all duration-300 border border-gray-300 dark:border-gray-600">
+                            <i class="fas fa-headset"></i> Contact Us
+                        </a>
+                    </div>
+                </div>
+
+                
+            </div>
+
+            <!-- Right Column - Image/Quote Card (Now on Right) -->
+            <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden h-64 sm:h-80 lg:h-96 xl:h-[500px] shadow-xl hover:shadow-2xl transition-all duration-300 group order-1 lg:order-2">
+    <!-- Image -->
+    <img src="image/home2 -2.jpg" 
+         alt="Team collaboration" 
+         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+    
+    <!-- Overlay Content -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex items-end justify-center">
+        <div class="text-center p-4 sm:p-6 lg:p-8 transform group-hover:translate-y-0 translate-y-2 transition-transform duration-300">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 border-2 border-white/30">
+                <i class="fas fa-users text-xl sm:text-2xl lg:text-3xl text-white"></i>
+            </div>
+            <p class="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-1">Our Team</p>
+            <p class="text-xs sm:text-sm text-white/80">50+ Experts Ready to Help</p>
+        </div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-4 left-4 w-16 h-16 sm:w-20 sm:h-20 border-t-2 border-l-2 border-white/30 rounded-tl-3xl"></div>
+    <div class="absolute bottom-4 right-4 w-16 h-16 sm:w-20 sm:h-20 border-b-2 border-r-2 border-white/30 rounded-br-3xl"></div>
+</div>
+        </div>
+
+        
+        
+    </div>
+</section>
+
+
+    
+    <!-- CTA SECTION - Centered -->
+    <section id="contact" class="py-12 sm:py-20 bg-gradient-to-r from-[#1e3a6f] to-[#0a1929]">
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <i class="fas fa-rocket text-2xl sm:text-3xl lg:text-5xl mb-3 sm:mb-4 lg:mb-6 text-[#4d8cff] animate-bounce"></i>
+            <h2 class="text-xl sm:text-2xl lg:text-3xl md:text-4xl font-black text-white mb-2 sm:mb-3 lg:mb-4">Ready to transform your business?</h2>
+            <p class="text-sm sm:text-base lg:text-xl text-gray-400 mb-4 sm:mb-6 lg:mb-8">Join 10,000+ companies already growing with CloudFlow</p>
+            <div class="flex flex-wrap gap-2 sm:gap-4 justify-center">
+                <a href="#" class="bg-gradient-to-r from-[#4d8cff] to-[#2979ff] text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 rounded-lg text-xs sm:text-sm lg:text-base font-bold hover:shadow-xl transition transform hover:scale-105 flex items-center gap-1 sm:gap-2">
+                    <i class="fas fa-rocket text-xs sm:text-sm"></i> Start free trial
+                </a>
+                <a href="#" class="border-2 border-[#4d8cff] text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 rounded-lg text-xs sm:text-sm lg:text-base font-bold hover:bg-[#4d8cff] transition flex items-center gap-1 sm:gap-2">
+                    <i class="fas fa-calendar text-xs sm:text-sm"></i> Schedule demo
+                </a>
+            </div>
+            <p class="text-2xs sm:text-xs text-gray-500 mt-3 sm:mt-4 lg:mt-6">No credit card required · Cancel anytime</p>
+        </div>
+    </section>
+
+
+
+
+<footer class="bg-gray-900 text-white pt-10 pb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 mb-10">
+            
+            <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                <a href="index.html" class="log mb-3">
+                    <span class="font-black text-2xl bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text  text-transparent">GrowwSaas</span>
+                </a>
+                
+                <p class="text-gray-400 text-xs sm:text-sm mb-4 leading-relaxed text-left max-w-sm">
+                    Modern SaaS platform helping businesses scale with powerful tools and automation.
+                </p>
+                
+                <div class="flex gap-3">
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-all">
+                        <i class="fab fa-facebook-f text-xs text-white"></i>
+                    </a>
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-all">
+                        <i class="fab fa-twitter text-xs text-white"></i>
+                    </a>
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition-all">
+                        <i class="fab fa-linkedin-in text-xs text-white"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-span-1 flex flex-col items-start">
+                <h4 class="font-bold text-sm sm:text-base mb-4 text-blue-400 uppercase tracking-wider">Links</h4>
+                <ul class="space-y-2 text-gray-400 text-xs sm:text-sm text-left">
+                    <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+                    <li><a href="about.html" class="hover:text-white transition-colors">About</a></li>
+                    <li><a href="services.html" class="hover:text-white transition-colors">Services</a></li>
+                    <li><a href="price.html" class="hover:text-white transition-colors">Pricing</a></li>
+                    <li><a href="eatures.html" class="hover:text-white transition-colors">Features</a></li>
+                </ul>
+            </div>
+
+            <div class="col-span-1 flex flex-col items-start">
+                <h4 class="font-bold text-sm sm:text-base mb-4 text-blue-400 uppercase tracking-wider">Help</h4>
+                <ul class="space-y-2 text-gray-400 text-xs sm:text-sm text-left">
+                    <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Support</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Saas</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Privacy</a></li>
+                </ul>
+            </div>
+
+            <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                <h4 class="font-bold text-sm sm:text-base mb-4 text-blue-400 uppercase tracking-wider">Contact</h4>
+                <div class="grid grid-cols-2 lg:grid-cols-1 gap-4 w-full">
+                    <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i>
+                        <span>Bangalore, India</span>
+                    </div>
+                    <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                        <i data-lucide="mail" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i>
+                        <a href="mailto:hello@growwsaas.com" class="break-all">hello@growwsaas.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-6 border-t border-gray-800 flex flex-row justify-between items-center text-gray-500 text-[10px] sm:text-xs">
+            <p>© 2026 GrowwSaas</p>
+            <div class="flex gap-3">
+                <a href="#" class="hover:text-white">Terms</a>
+                <a href="#" class="hover:text-white">Cookies</a>
+            </div>
+            <div class="hidden sm:flex items-center gap-1">
+                <i class="fas fa-shield-alt text-blue-500"></i>
+                <span class="text-[10px]">Secure</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* Standardized Alignment for all devices */
+    footer .flex-col {
+        align-items: flex-start; /* Hard-align all content to the left */
+    }
+
+    @media (max-width: 639px) {
+        footer h4 {
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
+        footer p, footer li {
+            font-size: 0.75rem;
+        }
+        /* Extra padding removal for mobile side-by-side */
+        .grid-cols-2 {
+            gap-x: 4;
+        }
+    }
+    
+    footer a {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    @media (max-width: 768px) {
+        footer li a {
+            padding: 2px 0;
+            display: inline-block;
+        }
+    }
+</style>
+
+    <script>
+        lucide.createIcons();
+
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

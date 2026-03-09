@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>GrowwSaas - Services-details</title>
+    <link rel="icon" type="image/jpg" href="image/growwpark_logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#3b82f6', 
+                        secondary: '#10b981',
+                        darkBg: '#0f172a'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                } 
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        body.light {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        body.dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        body.menu-open {
+            overflow: hidden;
+        }
+        
+        /* Floating Navbar - Blue Theme */
+        .navbar {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .dark .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3);
+        }
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #3b82f6;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-text {
+            font-weight: 900;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .dark .logo-text {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Nav Links */
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 40px;
+            color: #1e293b;
+            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .dark .nav-link {
+            color: #e2e8f0;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link i {
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-link:hover i,
+        .nav-link.active i {
+            color: white;
+            transform: rotate(180deg);
+        }
+        
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            margin-top: 15px;
+            min-width: 220px;
+            background: white;
+            border-radius: 24px;
+            padding: 12px;
+            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .dark .dropdown-menu {
+            background: #1e293b;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        
+        .dropdown-group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 16px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .dark .dropdown-item {
+            color: #e2e8f0;
+        }
+        
+        .dropdown-item i {
+            width: 18px;
+            color: #3b82f6;
+        }
+        
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .dropdown-item:hover i {
+            color: white;
+        }
+        
+        .dropdown-item.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+        }
+        
+        .dropdown-item.active i {
+            color: white;
+        }
+        
+        /* Full Screen Mobile Menu */
+        #mobileMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .dark #mobileMenu {
+            background: rgba(15, 23, 42, 0.98);
+        }
+        
+        #mobileMenu.open {
+            transform: translateX(0);
+        }
+        
+        /* Mobile Header */
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 30px;
+        }
+        
+        /* Close Button */
+        .close-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: white;
+            border: none;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+        
+        /* Mobile Links */
+        .mobile-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #1e293b;
+            background: white;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.1);
+            text-decoration: none;
+        }
+        
+        .dark .mobile-link {
+            color: #e2e8f0;
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+        
+        .mobile-link:hover,
+        .mobile-link.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            transform: translateX(10px);
+            border-color: transparent;
+        }
+        
+        .mobile-link:hover i,
+        .mobile-link.active i {
+            color: white;
+        }
+        
+        /* Mobile Submenu */
+        .mobile-submenu {
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 2px solid #3b82f6;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .mobile-submenu.open {
+            display: block;
+        }
+        
+        .mobile-submenu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border-radius: 16px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: white;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .dark .mobile-submenu a {
+            color: #e2e8f0;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .mobile-submenu a:hover,
+        .mobile-submenu a.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            transform: translateX(10px);
+            border-color: transparent;
+        }
+        
+        .mobile-submenu a:hover i,
+        .mobile-submenu a.active i {
+            color: white;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 45px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.5);
+        }
+        
+        /* Settings Section */
+        .settings-section {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 30px;
+            padding: 24px;
+            margin-top: 30px;
+        }
+        
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
+        
+        .settings-label {
+            font-weight: 600;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dark .settings-label {
+            color: #e2e8f0;
+        }
+        
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .mobile-toggle {
+                display: none !important;
+            }
+            .desktop-menu {
+                display: flex !important;
+            }
+            .desktop-auth {
+                display: block !important;
+            }
+        }
+        
+        /* iPad Pro Specific */
+        @media (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #4d8cff 0%, #2979ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Main Content Padding */
+        .main-content {
+            padding-top: 100px;
+        }
+    </style>
+</head>
+<body class="light font-inter">
+
+    <!-- Navbar - Perfect Blue Theme -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 py-2">
+            <div class="flex items-center justify-between">
+                
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <span class="logo-text">GrowwSaas</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu items-center gap-1">
+                    <!-- Home Dropdown -->
+                    <div class="dropdown-group relative">
+                        <button class="nav-link">
+                            Home <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="index.html" class="dropdown-item">Home 1</a>
+                            <a href="home2.html" class="dropdown-item">Home 2</a>
+                        </div>
+                    </div>
+
+                    <!-- About -->
+                    <a href="about.html" class="nav-link ">About</a>
+
+                    <!-- Services -->
+                    <a href="services.html" class="nav-link active">Services</a>
+
+                    <!-- Pricing -->
+                    <a href="price.html" class="nav-link">Pricing</a>
+
+                    <!-- Features -->
+                    <a href="features.html" class="nav-link">Features</a>
+
+                    <!-- Dashboard Dropdown -->
+                    <div class="dropdown-group relative">
+                        <button class="nav-link">Dashboard <i data-lucide="chevron-down" class="w-4 h-4"></i></button>
+                        <div class="dropdown-menu">
+                            <a href="admin.html" class="dropdown-item">Admin Panel</a>
+                            <a href="user.html" class="dropdown-item">User Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="flex items-center gap-2">
+                    <!-- Theme & Direction -->
+                    <div class="desktop-menu flex items-center gap-2">
+                        <button onclick="toggleDirection()" class="action-btn">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        </button>
+                        <button onclick="toggleTheme()" class="action-btn">
+                            <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                            <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Auth Dropdown -->
+                    <div class="desktop-auth dropdown-group relative">
+                        <button class="action-btn">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu" style="right: 0; left: auto;">
+                            <a href="login.html" class="dropdown-item"><i data-lucide="log-in"></i>Login</a>
+                            <a href="signup.html" class="dropdown-item"><i data-lucide="user-plus"></i>Signup</a>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()" class="mobile-toggle action-btn">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Full Screen Mobile Menu -->
+    <div id="mobileMenu">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <a href="index.html" class="logo">
+                <span class="logo-text">GrowwSaas</span>
+            </a>
+            <button onclick="toggleMobileMenu()" class="close-btn">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="px-4">
+            <!-- Home Section -->
+            <button onclick="toggleMobileSubmenu('mobileHomeSub')" class="mobile-link">
+                <span>HOME</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="homeSubIcon"></i>
+            </button>
+            <div id="mobileHomeSub" class="mobile-submenu open">
+                <a href="index.html" onclick="closeMobileMenu()">HOME 1</a>
+                <a href="home2.html" onclick="closeMobileMenu()">HOME 2</a>
+            </div>
+
+            <!-- About -->
+            <a href="about.html" class="mobile-link " onclick="closeMobileMenu()">
+                <span>ABOUT</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Services -->
+            <a href="services.html" class="mobile-link active" onclick="closeMobileMenu()">
+                <span>SERVICES</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Pricing -->
+            <a href="price.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>PRICING</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Features -->
+            <a href="features.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>FEATURES</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Dashboard Section -->
+            <button onclick="toggleMobileSubmenu('mobileDashSub')" class="mobile-link">
+                <span>DASHBOARD</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="dashSubIcon"></i>
+            </button>
+            <div id="mobileDashSub" class="mobile-submenu">
+                <a href="admin.html" onclick="closeMobileMenu()">ADMIN</a>
+                <a href="user.html" onclick="closeMobileMenu()">USER</a>
+            </div>
+
+            <!-- Auth Section -->
+            <button onclick="toggleMobileSubmenu('mobileAuthSub')" class="mobile-link">
+                <span><i data-lucide="log-in" class="w-5 h-5 inline mr-2"></i>ACCOUNT</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="authSubIcon"></i>
+            </button>
+            <div id="mobileAuthSub" class="mobile-submenu">
+                <a href="login.html" onclick="closeMobileMenu()"><i data-lucide="log-in"></i>LOGIN</a>
+                <a href="signup.html" onclick="closeMobileMenu()"><i data-lucide="user-plus"></i>SIGNUP</a>
+            </div>
+
+            <!-- Settings -->
+            <div class="settings-section">
+                <div class="settings-item">
+                    <span class="settings-label"><i class="fa-solid fa-arrow-right-arrow-left text-primary"></i>DIRECTION</span>
+                    <button onclick="toggleDirection()" class="action-btn"><i class="fa-solid fa-left-right"></i></button>
+                </div>
+                <div class="settings-item">
+                    <span class="settings-label"><i data-lucide="moon" class="w-5 h-5"></i>THEME</span>
+                    <button onclick="toggleTheme()" class="action-btn">
+                        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.toggle('open');
+            body.classList.toggle('menu-open');
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.remove('open');
+            body.classList.remove('menu-open');
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        // Mobile Submenu Toggle
+        function toggleMobileSubmenu(submenuId) {
+            const submenu = document.getElementById(submenuId);
+            const button = submenu.previousElementSibling;
+            const icon = button.querySelector('i:last-child');
+            
+            // Close other submenus
+            document.querySelectorAll('.mobile-submenu').forEach(menu => {
+                if (menu.id !== submenuId && menu.classList.contains('open')) {
+                    menu.classList.remove('open');
+                    const prevButton = menu.previousElementSibling;
+                    const prevIcon = prevButton.querySelector('i:last-child');
+                    if (prevIcon) {
+                        prevIcon.style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+            
+            // Toggle current submenu
+            submenu.classList.toggle('open');
+            
+            // Rotate icon
+            if (icon) {
+                icon.style.transform = submenu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const body = document.body;
+            
+            html.classList.toggle('dark');
+            body.classList.toggle('dark');
+            
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+        }
+
+        // Direction Toggle
+        function toggleDirection() {
+            const html = document.documentElement;
+            html.dir = html.dir === 'rtl' ? 'ltr' : 'rtl';
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+
+        // Close menu with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const mobileMenu = document.getElementById('mobileMenu');
+                if (mobileMenu.classList.contains('open')) {
+                    closeMobileMenu();
+                }
+            }
+        });
+
+        // Close dropdowns when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown-group')) {
+                document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+                    dropdown.style.opacity = '0';
+                    dropdown.style.visibility = 'hidden';
+                });
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- ========== SECTION 1: HERO SECTION (Services Details Page) ========== -->
+    <section class="min-h-screen flex items-center relative bg-cover bg-center bg-fixed"
+             style="background-image: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('image/price\ 1.webp');">
+        
+        <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                
+            
+                
+                <!-- Main Title -->
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6">
+                    <span class="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Professional</span>
+                    <br>
+                    <span class="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">SaaS Services</span>
+                </h1>
+                
+                <!-- Description -->
+                <p class="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto mb-10">
+                    Comprehensive enterprise solutions designed to transform your business operations with cutting-edge technology and 24/7 expert support.
+                </p>
+
+                
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="services.html" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-cyan-500 text-white rounded-xl font-semibold hover:shadow-xl hover:shadow-indigo-500/25 transition-all duration-300 group">
+                        <i class="fas fa-rocket group-hover:animate-pulse"></i>
+                        <span> Back to Service</span>
+                    </a>
+                    <a href="#se" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-xl font-semibold border border-white/20 hover:bg-white/20 transition-all duration-300">
+                        
+                        <span>Explore Services</span>
+                    </a>
+                </div>
+
+                <!-- Scroll Indicator -->
+                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+                    <a href="#services" class="text-white/60 hover:text-white">
+                        <i class="fas fa-chevron-down text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 2: SAAS PRODUCTS & TOOLS (6 Cards) ========== -->
+    <section id="services" class="py-20 bg-white dark:bg-gray-900">
+        <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 px-4 py-2 rounded-full mb-6">
+                    <i class="fas fa-cube text-indigo-600 dark:text-indigo-400 text-3xl md:text-4xl"></i>
+                    <span class="text-3xl md:text-4xl font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide">OUR PRODUCTS</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                    Complete <span class="text-indigo-600 dark:text-indigo-400">SaaS Ecosystem</span>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-300 text-lg">
+                    Powerful tools and products to scale your business efficiently
+                </p>
+            </div>
+
+            <!-- 6 Cards Grid - Responsive: 1 on mobile, 2 on tablet, 3 on desktop -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Card 1: CRM Platform -->
+                <div class="group bg-gray-100 dark:bg-gray-800/50 rounded-2xl p-8 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-900">
+                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-users text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">CRM Platform</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Enterprise CRM with AI-powered insights and automated workflows.</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>Contact management</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>Deal tracking</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>Sales analytics</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">$49</span>
+                        <a href="#" class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold hover:gap-3 transition-all">
+                            Learn More <i class="fas fa-arrow-right text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 2: Analytics Dashboard -->
+                <div class="group bg-gray-100 dark:bg-gray-800/50 rounded-2xl p-8 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-900">
+                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-chart-pie text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Analytics Pro</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Real-time analytics with predictive AI and custom dashboards.</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>Real-time data</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>AI predictions</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>Custom reports</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">$79</span>
+                        <a href="#" class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold hover:gap-3 transition-all">
+                            Learn More <i class="fas fa-arrow-right text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 3: Project Management -->
+                <div class="group bg-gray-100 dark:bg-gray-800/50 rounded-2xl p-8 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-900">
+                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-tasks text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Project Flow</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Agile project management with Kanban boards and sprints.</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>Task tracking</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>Team collaboration</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>Gantt charts</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">$39</span>
+                        <a href="#" class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold hover:gap-3 transition-all">
+                            Learn More <i class="fas fa-arrow-right text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 4: Communication Hub -->
+                <div class="group bg-gray-100 dark:bg-gray-800/50 rounded-2xl p-8 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-900">
+                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-comments text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Team Chat</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Enterprise messaging with video calls and file sharing.</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>Video conferencing</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>Screen sharing</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>File transfer</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">$29</span>
+                        <a href="#" class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold hover:gap-3 transition-all">
+                            Learn More <i class="fas fa-arrow-right text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 5: Security Suite -->
+                <div class="group bg-gray-100 dark:bg-gray-800/50 rounded-2xl p-8 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-900">
+                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Security Shield</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Advanced security with encryption and threat detection.</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>AES-256 encryption</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>2FA authentication</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>Threat monitoring</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">$99</span>
+                        <a href="#" class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold hover:gap-3 transition-all">
+                            Learn More <i class="fas fa-arrow-right text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 6: API Gateway -->
+                <div class="group bg-gray-100 dark:bg-gray-800/50 rounded-2xl p-8 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-900">
+                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-code text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">API Connect</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Robust API management with rate limiting and analytics.</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>REST & GraphQL</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>Rate limiting</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                            <span>API analytics</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">$59</span>
+                        <a href="#" class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold hover:gap-3 transition-all">
+                            Learn More <i class="fas fa-arrow-right text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View All Products Link -->
+            <div class="text-center mt-12">
+                <a href="#" class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold hover:gap-3 transition-all">
+                    <span>View All Products</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 3: TOOLS WE USE (3 Cards) ========== -->
+    <section class="py-20 bg-gray-50 dark:bg-gray-800/50">
+        <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 px-4 py-2 rounded-full mb-6">
+                    <i class="fas fa-tools text-indigo-600 dark:text-indigo-400"></i>
+                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide">TECH STACK</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                    Tools & Technologies <span class="text-indigo-600 dark:text-indigo-400">We Use</span>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-300 text-lg">
+                    Cutting-edge technologies powering our SaaS platform
+                </p>
+            </div>
+
+            <!-- 3 Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Tool Card 1: Development -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 text-center group">
+                    <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-6 transition-transform">
+                        <i class="fab fa-react text-white text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">React & Node.js</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Modern frontend with React 18, Next.js 14, and Node.js backend for optimal performance.</p>
+                    <div class="flex flex-wrap gap-2 justify-center">
+                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs rounded-full">React</span>
+                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs rounded-full">Next.js</span>
+                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs rounded-full">Node.js</span>
+                    </div>
+                </div>
+
+                <!-- Tool Card 2: Database -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 text-center group">
+                    <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-6 transition-transform">
+                        <i class="fas fa-database text-white text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">PostgreSQL & MongoDB</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Hybrid database architecture with PostgreSQL for transactions and MongoDB for scalability.</p>
+                    <div class="flex flex-wrap gap-2 justify-center">
+                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs rounded-full">PostgreSQL</span>
+                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs rounded-full">MongoDB</span>
+                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs rounded-full">Redis</span>
+                    </div>
+                </div>
+
+                <!-- Tool Card 3: Cloud & DevOps -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 text-center group">
+                    <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-6 transition-transform">
+                        <i class="fas fa-cloud text-white text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">AWS & Docker</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Scalable cloud infrastructure on AWS with containerization using Docker and Kubernetes.</p>
+                    <div class="flex flex-wrap gap-2 justify-center">
+                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs rounded-full">AWS</span>
+                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs rounded-full">Docker</span>
+                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs rounded-full">K8s</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tech Stack Badge -->
+            <div class="text-center mt-12">
+                <div class="inline-flex items-center gap-4 bg-white dark:bg-gray-800 px-6 py-3 rounded-full shadow-md">
+                    <i class="fab fa-aws text-2xl text-gray-600 dark:text-gray-400"></i>
+                    <i class="fab fa-react text-2xl text-gray-600 dark:text-gray-400"></i>
+                    <i class="fab fa-node text-2xl text-gray-600 dark:text-gray-400"></i>
+                    <i class="fas fa-database text-2xl text-gray-600 dark:text-gray-400"></i>
+                    <i class="fab fa-docker text-2xl text-gray-600 dark:text-gray-400"></i>
+                    <i class="fab fa-python text-2xl text-gray-600 dark:text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations Section - Slack Style -->
+<section class="py-16 md:py-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
+    <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                    Over <span class="text-blue-600 dark:text-blue-400">2,600 integrations</span> and counting
+                </h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Slack connects with all of your favourite tools, such as Google Drive, Okta, Outlook and Zoom.
+                </p>
+            </div>
+
+            <!-- See all integrations link -->
+            <div class="text-center mb-12">
+                <a href="#" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold hover:gap-3 transition-all">
+                    <span>See all integrations →</span>
+                </a>
+            </div>
+
+            <!-- Integration Logos Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                
+                <!-- Google Drive -->
+                <div class="group flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fab fa-google-drive text-3xl text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                    <span class="text-lg font-semibold text-gray-900 dark:text-white">Google Drive</span>
+                </div>
+
+                <!-- Okta -->
+                <div class="group flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-lock text-3xl text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <span class="text-lg font-semibold text-gray-900 dark:text-white">Okta</span>
+                </div>
+
+                <!-- Outlook -->
+                <div class="group flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fab fa-microsoft text-3xl text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                    <span class="text-lg font-semibold text-gray-900 dark:text-white">Outlook</span>
+                </div>
+
+                <!-- Zoom -->
+                <div class="group flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-video text-3xl text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                    <span class="text-lg font-semibold text-gray-900 dark:text-white">Zoom</span>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+  
+
+
+  <footer class="bg-gray-900 dark:bg-gray-950 text-white pt-10 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 mb-10">
+                
+                <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                    <a href="index.html" class="log mb-3">
+                        <span class="font-black text-2xl bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">GrowwSaas</span>
+                    </a>
+                    
+                    <p class="text-gray-400 dark:text-gray-400 text-xs sm:text-sm mb-4 leading-relaxed text-left max-w-sm">
+                        Modern SaaS platform helping businesses scale with powerful tools and automation.
+                    </p>
+                    
+                    <div class="flex gap-3">
+                        <a href="#" class="w-8 h-8 bg-gray-800 dark:bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-all">
+                            <i class="fab fa-facebook-f text-xs text-white"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-gray-800 dark:bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-all">
+                            <i class="fab fa-twitter text-xs text-white"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-gray-800 dark:bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition-all">
+                            <i class="fab fa-linkedin-in text-xs text-white"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-span-1 flex flex-col items-start">
+                    <h4 class="font-bold text-sm sm:text-base mb-4 text-blue-400 dark:text-blue-400 uppercase tracking-wider">Links</h4>
+                    <ul class="space-y-2 text-gray-400 dark:text-gray-400 text-xs sm:text-sm text-left">
+                        <li><a href="index.html" class="hover:text-white dark:hover:text-white transition-colors">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white dark:hover:text-white transition-colors">About</a></li>
+                        <li><a href="services.html" class="hover:text-white dark:hover:text-white transition-colors">Services</a></li>
+                        <li><a href="price.html" class="hover:text-white dark:hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="features.html" class="hover:text-white dark:hover:text-white transition-colors">Features</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-1 flex flex-col items-start">
+                    <h4 class="font-bold text-sm sm:text-base mb-4 text-blue-400 dark:text-blue-400 uppercase tracking-wider">Help</h4>
+                    <ul class="space-y-2 text-gray-400 dark:text-gray-400 text-xs sm:text-sm text-left">
+                        <li><a href="#" class="hover:text-white dark:hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white dark:hover:text-white transition-colors">Support</a></li>
+                        <li><a href="#" class="hover:text-white dark:hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-white dark:hover:text-white transition-colors">Saas</a></li>
+                        <li><a href="#" class="hover:text-white dark:hover:text-white transition-colors">Privacy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                    <h4 class="font-bold text-sm sm:text-base mb-4 text-blue-400 dark:text-blue-400 uppercase tracking-wider">Contact</h4>
+                    <div class="grid grid-cols-2 lg:grid-cols-1 gap-4 w-full">
+                        <div class="flex items-start gap-2 text-gray-400 dark:text-gray-400 text-xs sm:text-sm">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i>
+                            <span>Bangalore, India</span>
+                        </div>
+                        <div class="flex items-start gap-2 text-gray-400 dark:text-gray-400 text-xs sm:text-sm">
+                            <i data-lucide="mail" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i>
+                            <a href="mailto:hello@growwsaas.com" class="break-all">hello@growwsaas.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-gray-800 dark:border-gray-800 flex flex-row justify-between items-center text-gray-500 dark:text-gray-500 text-[10px] sm:text-xs">
+                <p>© 2026 GrowwSaas</p>
+                <div class="flex gap-3">
+                    <a href="#" class="hover:text-white dark:hover:text-white">Terms</a>
+                    <a href="#" class="hover:text-white dark:hover:text-white">Cookies</a>
+                </div>
+                <div class="hidden sm:flex items-center gap-1">
+                    <i class="fas fa-shield-alt text-blue-500"></i>
+                    <span class="text-[10px]">Secure</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        /* Standardized Alignment for all devices */
+        footer .flex-col {
+            align-items: flex-start;
+        }
+
+        @media (max-width: 639px) {
+            footer h4 {
+                font-size: 0.8rem;
+                margin-bottom: 0.75rem;
+            }
+            footer p, footer li {
+                font-size: 0.75rem;
+            }
+            .grid-cols-2 {
+                gap-x: 4;
+            }
+        }
+        
+        footer a {
+            transition: all 0.2s ease-in-out;
+        }
+        
+        @media (max-width: 768px) {
+            footer li a {
+                padding: 2px 0;
+                display: inline-block;
+            }
+        }
+    </style>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>GrowwSaas - pricing</title>
+    <link rel="icon" type="image/jpg" href="image/growwpark_logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#3b82f6', 
+                        secondary: '#10b981',
+                        darkBg: '#0f172a'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                } 
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+       :root {
+            --primary-dark: #0a1929;
+            --primary-medium: #1e3a6f;
+            --primary-light: #3b6e9e;
+            --accent-blue: #4d8cff;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-muted: #a0a0a0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        body.light {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        body.dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        body.menu-open {
+            overflow: hidden;
+        }
+        
+        /* Floating Navbar - Blue Theme */
+        .navbar {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            
+            transition: all 0.3s ease;
+        }
+        
+        .dark .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3);
+        }
+        
+        
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #3b82f6;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-text {
+            font-weight: 900;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .dark .logo-text {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Nav Links - Perfect Blue Theme */
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 40px;
+            color: #1e293b;
+            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .dark .nav-link {
+            color: #e2e8f0;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link i {
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-link:hover i,
+        .nav-link.active i {
+            color: white;
+            transform: rotate(180deg);
+        }
+        
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            margin-top: 15px;
+            min-width: 220px;
+            background: white;
+            border-radius: 24px;
+            padding: 12px;
+            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .dark .dropdown-menu {
+            background: #1e293b;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        
+        .dropdown-group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 16px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .dark .dropdown-item {
+            color: #e2e8f0;
+        }
+        
+        .dropdown-item i {
+            width: 18px;
+            color: #3b82f6;
+        }
+        
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .dropdown-item:hover i {
+            color: white;
+        }
+        
+        .dropdown-item.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+        }
+        
+        .dropdown-item.active i {
+            color: white;
+        }
+        
+        /* Full Screen Mobile Menu */
+        #mobileMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .dark #mobileMenu {
+            background: rgba(15, 23, 42, 0.98);
+        }
+        
+        #mobileMenu.open {
+            transform: translateX(0);
+        }
+        
+        /* Mobile Header */
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 30px;
+        }
+        
+        /* Close Button */
+        .close-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: white;
+            border: none;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+        
+        /* Mobile Links - Blue Theme */
+        .mobile-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #1e293b;
+            background: white;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.1);
+            text-decoration: none;
+        }
+        
+        .dark .mobile-link {
+            color: #e2e8f0;
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+        
+        .mobile-link:hover,
+        .mobile-link.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            transform: translateX(10px);
+            border-color: transparent;
+        }
+        
+        .mobile-link:hover i,
+        .mobile-link.active i {
+            color: white;
+        }
+        
+        /* Mobile Submenu */
+        .mobile-submenu {
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 2px solid #3b82f6;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .mobile-submenu.open {
+            display: block;
+        }
+        
+        .mobile-submenu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border-radius: 16px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: white;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .dark .mobile-submenu a {
+            color: #e2e8f0;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .mobile-submenu a:hover,
+        .mobile-submenu a.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            transform: translateX(10px);
+            border-color: transparent;
+        }
+        
+        .mobile-submenu a:hover i,
+        .mobile-submenu a.active i {
+            color: white;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 45px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.5);
+        }
+        
+        /* Settings Section */
+        .settings-section {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 30px;
+            padding: 24px;
+            margin-top: 30px;
+        }
+        
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
+        
+        .settings-label {
+            font-weight: 600;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dark .settings-label {
+            color: #e2e8f0;
+        }
+        
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .mobile-toggle {
+                display: none !important;
+            }
+            .desktop-menu {
+                display: flex !important;
+            }
+            .desktop-auth {
+                display: block !important;
+            }
+        }
+        
+        /* iPad Pro Specific */
+        @media (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+        }
+        
+        
+        
+        /* Main Content Padding */
+        .main-content {
+            padding-top: 100px;
+        }
+    </style>
+</head>
+<body class="light font-inter">
+
+    <!-- Navbar - Perfect Blue Theme -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 py-2">
+            <div class="flex items-center justify-between">
+                
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <span class="logo-text">GrowwSaas</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu items-center gap-1">
+                    <!-- Home Dropdown -->
+                    <div class="dropdown-group relative">
+                        <button class="nav-link ">
+                            Home <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="index.html" class="dropdown-item ">
+                                
+                                Home 1
+                            </a>
+                            <a href="home2.html" class="dropdown-item ">
+                                
+                                Home 2
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- About -->
+                    <a href="about.html" class="nav-link">
+                        About
+                    </a>
+
+                    <!-- Services -->
+                    <a href="services.html" class="nav-link">
+                        Services
+                    </a>
+
+                    <!-- Pricing -->
+                    <a href="price.html" class="nav-link active">
+                        Pricing
+                    </a>
+
+                    <!-- Features -->
+                    <a href="features.html" class="nav-link">
+                        Features
+                    </a>
+
+                    <!-- Dashboard Dropdown -->
+                    <div class="dropdown-group relative">
+                        <button class="nav-link">
+                            Dashboard <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="admin.html" class="dropdown-item">
+                                
+                                Admin Panel
+                            </a>
+                            <a href="user.html" class="dropdown-item">
+                                
+                                User Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="flex items-center gap-2">
+                    <!-- Theme & Direction -->
+                    <div class="desktop-menu flex items-center gap-2">
+                        <button onclick="toggleDirection()" class="action-btn float-animation">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        </button>
+                        <button onclick="toggleTheme()" class="action-btn float-animation">
+                            <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                            <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Auth Dropdown -->
+                    <div class="desktop-auth dropdown-group relative">
+                        <button class="action-btn">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu" style="right: 0; left: auto;">
+                            <a href="login.html" class="dropdown-item">
+                                <i data-lucide="log-in"></i>
+                                Login
+                            </a>
+                            <a href="signup.html" class="dropdown-item">
+                                <i data-lucide="user-plus"></i>
+                                Signup
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()" class="mobile-toggle action-btn">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Full Screen Mobile Menu -->
+    <div id="mobileMenu">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <a href="index.html" class="logo">
+                <span class="logo-text">GrowwSaas</span>
+            </a>
+            <button onclick="toggleMobileMenu()" class="close-btn">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="px-4">
+            <!-- Home Section -->
+            <button onclick="toggleMobileSubmenu('mobileHomeSub')" class="mobile-link ">
+                <span>
+                    
+                    HOME
+                </span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="homeSubIcon"></i>
+            </button>
+            <div id="mobileHomeSub" class="mobile-submenu open">
+                <a href="index.html" onclick="closeMobileMenu()" >
+                    
+                    HOME 1
+                </a>
+                <a href="home2.html" onclick="closeMobileMenu()" >
+                
+                    HOME 2
+                </a>
+            </div>
+
+            <!-- About -->
+            <a href="about.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>
+                
+                    ABOUT
+                </span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Services -->
+            <a href="services.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>
+                    
+                    SERVICES
+                </span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Pricing -->
+            <a href="price.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>
+                    
+                    PRICING
+                </span>
+                <i data-lucide="arrow-right active" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Features -->
+            <a href="features.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>
+                    
+                    FEATURES
+                </span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Dashboard Section -->
+            <button onclick="toggleMobileSubmenu('mobileDashSub')" class="mobile-link">
+                <span>
+                    
+                    DASHBOARD
+                </span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="dashSubIcon"></i>
+            </button>
+            <div id="mobileDashSub" class="mobile-submenu">
+                <a href="admin.html" onclick="closeMobileMenu()">
+                
+                    ADMIN
+                </a>
+                <a href="user.html" onclick="closeMobileMenu()">
+                    
+                    USER
+                </a>
+            </div>
+
+            <!-- Auth Section -->
+            <button onclick="toggleMobileSubmenu('mobileAuthSub')" class="mobile-link">
+                <span>
+                    <i data-lucide="log-in" class="w-5 h-5 inline mr-2"></i>
+                    ACCOUNT
+                </span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="authSubIcon"></i>
+            </button>
+            <div id="mobileAuthSub" class="mobile-submenu">
+                <a href="login.html" onclick="closeMobileMenu()">
+                    <i data-lucide="log-in"></i>
+                    LOGIN
+                </a>
+                <a href="signup.html" onclick="closeMobileMenu()">
+                    <i data-lucide="user-plus"></i>
+                    SIGNUP
+                </a>
+            </div>
+
+            <!-- Settings -->
+            <div class="settings-section">
+                <div class="settings-item">
+                    <span class="settings-label">
+                        <i class="fa-solid fa-arrow-right-arrow-left text-primary"></i>
+                        DIRECTION
+                    </span>
+                    <button onclick="toggleDirection()" class="action-btn">
+                        <i class="fa-solid fa-left-right"></i>
+                    </button>
+                </div>
+                <div class="settings-item">
+                    <span class="settings-label">
+                        <i data-lucide="moon" class="w-5 h-5"></i>
+                        THEME
+                    </span>
+                    <button onclick="toggleTheme()" class="action-btn">
+                        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.toggle('open');
+            body.classList.toggle('menu-open');
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.remove('open');
+            body.classList.remove('menu-open');
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        // Mobile Submenu Toggle
+        function toggleMobileSubmenu(submenuId) {
+            const submenu = document.getElementById(submenuId);
+            const button = submenu.previousElementSibling;
+            const icon = button.querySelector('i:last-child');
+            
+            // Close other submenus
+            document.querySelectorAll('.mobile-submenu').forEach(menu => {
+                if (menu.id !== submenuId && menu.classList.contains('open')) {
+                    menu.classList.remove('open');
+                    const prevButton = menu.previousElementSibling;
+                    const prevIcon = prevButton.querySelector('i:last-child');
+                    if (prevIcon) {
+                        prevIcon.style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+            
+            // Toggle current submenu
+            submenu.classList.toggle('open');
+            
+            // Rotate icon
+            if (icon) {
+                icon.style.transform = submenu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const body = document.body;
+            
+            html.classList.toggle('dark');
+            body.classList.toggle('dark');
+            
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+        }
+
+        // Direction Toggle
+        function toggleDirection() {
+            const html = document.documentElement;
+            html.dir = html.dir === 'rtl' ? 'ltr' : 'rtl';
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+
+        // Close menu with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const mobileMenu = document.getElementById('mobileMenu');
+                if (mobileMenu.classList.contains('open')) {
+                    closeMobileMenu();
+                }
+            }
+        });
+
+        // Close dropdowns when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown-group')) {
+                document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+                    dropdown.style.opacity = '0';
+                    dropdown.style.visibility = 'hidden';
+                });
+            }
+        });
+    </script>
+
+
+
+
+
+
+<!-- ========== SECTION 1: FULL SCREEN - HEADER + COMPANY LOGOS WITH ICONS ========== -->
+    <section class="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-16">
+        <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Header Content -->
+            <div class="text-center max-w-4xl mx-auto mb-16">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+                    Choose a paid subscription that's <span class="text-blue-600 dark:text-blue-400">built for businesses</span>.
+                </h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Or start with the basics for free, and upgrade at any time.
+                </p>
+            </div>
+
+            <!-- Company Logos Section with Icons + Names -->
+            <div class="text-center">
+                <p class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-10">
+                    The world's leading businesses rely on Slack
+                </p>
+                
+                <!-- Logos Grid - 2 on mobile, 3 on tablet, 6 on desktop -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8 items-center justify-items-center">
+                    
+                    <!-- Canva Icon - Pure Icon without text -->
+<div class="group flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
+    <div class="w-16 h-16 bg-blue-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+        <i class="fas fa-credit-card text-3xl text-purple-600 dark:text-purple-400"></i>
+    </div>
+    <span class="text-lg font-semibold text-gray-900 dark:text-white">Canva</span>
+</div>
+                    
+                    <!-- OpenAI with Icon -->
+                    <div class="group flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
+                        <div class="w-16 h-16 bg-green-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-robot text-3xl text-green-600 dark:text-green-400"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900 dark:text-white">OpenAI</span>
+                    </div>
+                    
+                    <!-- Stripe with Icon -->
+                    <div class="group flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
+                        <div class="w-16 h-16 bg-purple-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-credit-card text-3xl text-purple-600 dark:text-purple-400"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900 dark:text-white">Stripe</span>
+                    </div>
+                    
+                    <!-- Rivian with Icon -->
+                    <div class="group flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
+                        <div class="w-16 h-16 bg-red-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-car text-3xl text-red-600 dark:text-red-400"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900 dark:text-white">Rivian</span>
+                    </div>
+                    
+                    <!-- Spotify with Icon -->
+                    <div class="group flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
+                        <div class="w-16 h-16 bg-green-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fab fa-spotify text-3xl text-green-600 dark:text-green-400"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900 dark:text-white">Spotify</span>
+                    </div>
+                    
+                    <!-- Wayfair with Icon -->
+                    <div class="group flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
+                        <div class="w-16 h-16 bg-yellow-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-couch text-3xl text-yellow-600 dark:text-yellow-400"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900 dark:text-white">Wayfair</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Down Indicator -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <a href="#pricing" class="text-blue-600 dark:text-blue-400">
+                    <i class="fas fa-chevron-down text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 2: FULL SCREEN - PRICING PLANS (4 CARDS) ========== -->
+    <section id="pricing" class="min-h-screen flex items-center justify-center bg-gradient-to-t from-blue-50  dark:from-gray-900 dark:to-gray-800 py-16">
+        <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                    Simple, <span class="text-blue-600 dark:text-blue-400">transparent</span> pricing
+                </h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300">
+                    Choose the perfect plan for your business
+                </p>
+            </div>
+            
+            <!-- Pricing Cards Grid - 4 Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Card 1: Free Plan -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-gift text-blue-600 dark:text-blue-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Free</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">A simpler way to chat and collaborate</p>
+                    
+                    <div class="mb-4">
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">₹0</span>
+                        <span class="text-gray-500 dark:text-gray-400 text-sm">/month</span>
+                    </div>
+                    
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-6">Free forever</p>
+                    
+                    <a href="#" class="block w-full text-center py-3 px-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all mb-6">
+                        Get Started
+                    </a>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">90 days message history</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Up to 10 apps</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">1:1 meetings</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">1:1 external messages</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Pro Plan (Popular) -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 hover:shadow-2xl transition-all duration-300 border-2 border-blue-400 dark:border-blue-600 relative transform scale-105">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        MOST POPULAR
+                    </div>
+                    
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-rocket text-blue-600 dark:text-blue-400 text-xl"></i>
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Pro</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">Drive productivity in one place</p>
+                    
+                    <div class="mb-1">
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">₹545</span>
+                        <span class="text-gray-500 dark:text-gray-400 text-sm line-through ml-2">₹1,090</span>
+                    </div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-6">per user/month, yearly billing</p>
+                    
+                    <a href="#" class="block w-full text-center py-3 px-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all mb-6">
+                        Get Started
+                    </a>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Unlimited message history</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Unlimited app integrations</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Group meetings</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Group external messages</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Business+ Plan -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-blue-600 dark:text-blue-400 text-xl"></i>
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Business+</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">Scale with AI-powered work</p>
+                    
+                    <div class="mb-1">
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">₹1,238</span>
+                        <span class="text-gray-500 dark:text-gray-400 text-sm line-through ml-2">₹2,476</span>
+                    </div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-6">per user/month, yearly billing</p>
+                    
+                    <a href="#" class="block w-full text-center py-3 px-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all mb-6">
+                        Contact Sales
+                    </a>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Unlimited message history</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Unlimited app integrations</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Group meetings</span>
+                        </div>
+                        <div class="flex items-start gap-2 text-gray-400">
+                            <i class="fas fa-times-circle text-gray-400 mt-1"></i>
+                            <span class="text-sm text-gray-400">No external messages</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Enterprise+ Plan -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-building text-blue-600 dark:text-blue-400 text-xl"></i>
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Enterprise+</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">Maximise performance</p>
+                    
+                    <div class="mb-4">
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">Custom</span>
+                    </div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-6">Contact for pricing</p>
+                    
+                    <a href="#" class="block w-full text-center py-3 px-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all mb-6">
+                        Contact Sales
+                    </a>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Unlimited message history</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Unlimited app integrations</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Group meetings</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1"></i>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">External messages</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Contact Link -->
+            <div class="text-center mt-10">
+                <a href="#" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold hover:gap-3 transition-all text-lg">
+                    <span>CONTACT SALES FOR ENTERPRISE</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+
+
+<section class="bg-gray-50 dark:bg-gray-900 py-16 px-4 transition-colors duration-300 min-h-screen flex flex-col justify-center">
+    
+    <div class="max-w-7xl mx-auto text-center mb-12">
+        <h2 class="text-blue-600 dark:text-blue-400 font-bold uppercase tracking-widest text-sm mb-3">Pricing Plans</h2>
+        <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white mb-4">
+            Plans and <span class="text-blue-600">features</span>
+        </h1>
+        <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Choose the perfect plan for your workflow. From individuals to large enterprises.
+        </p>
+    </div>
+
+    <div class="max-w-7xl mx-auto w-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
+            
+            <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 border border-gray-200 dark:border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col">
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">Free</h3>
+                    <div class="mt-4 flex items-baseline">
+                        <span class="text-4xl font-extrabold dark:text-white">$0</span>
+                        <span class="ml-1 text-gray-500 text-sm">/month</span>
+                    </div>
+                    <p class="mt-2 text-gray-500 text-sm italic">For individuals getting started</p>
+                </div>
+                
+                <ul class="space-y-4 mb-8 flex-1">
+                    <li class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <span class="text-green-500 mr-2">✔</span> Unlimited Pages (Solo)
+                    </li>
+                    <li class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <span class="text-green-500 mr-2">✔</span> 5MB File Uploads
+                    </li>
+                    <li class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <span class="text-green-500 mr-2">✔</span> 7-day History
+                    </li>
+                </ul>
+
+                <button class="w-full py-4 px-6 rounded-2xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+                    Sign Up
+                </button>
+            </div>
+
+            <div class="bg-blue-600 rounded-3xl p-8 shadow-2xl transform lg:-translate-y-4 flex flex-col relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-xl uppercase">Popular</div>
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-white">Plus</h3>
+                    <div class="mt-4 flex items-baseline">
+                        <span class="text-4xl font-extrabold text-white">$10</span>
+                        <span class="ml-1 text-blue-100 text-sm">/month</span>
+                    </div>
+                    <p class="mt-2 text-blue-100 text-sm italic">Great for power users</p>
+                </div>
+                
+                <ul class="space-y-4 mb-8 flex-1 text-white">
+                    <li class="flex items-center text-sm"><span class="mr-2">✔</span> Unlimited Everything</li>
+                    <li class="flex items-center text-sm"><span class="mr-2">✔</span> Unlimited Uploads</li>
+                    <li class="flex items-center text-sm"><span class="mr-2">✔</span> 30-day History</li>
+                    <li class="flex items-center text-sm"><span class="mr-2">✔</span> Priority Support</li>
+                </ul>
+
+                <button class="w-full py-4 px-6 rounded-2xl bg-white text-blue-600 font-bold hover:bg-blue-50 transition shadow-lg">
+                    Get Started
+                </button>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 border border-gray-200 dark:border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col">
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">Business</h3>
+                    <div class="mt-4 flex items-baseline">
+                        <span class="text-4xl font-extrabold dark:text-white">$20</span>
+                        <span class="ml-1 text-gray-500 text-sm">/month</span>
+                    </div>
+                    <p class="mt-2 text-gray-500 text-sm italic">For teams & collaboration</p>
+                </div>
+                
+                <ul class="space-y-4 mb-8 flex-1">
+                    <li class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <span class="text-blue-600 mr-2">✔</span> Verified Pages
+                    </li>
+                    <li class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <span class="text-blue-600 mr-2">✔</span> 90-day History
+                    </li>
+                    <li class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <span class="text-blue-600 mr-2">✔</span> Admin Tools
+                    </li>
+                </ul>
+
+                <button class="w-full py-4 px-6 rounded-2xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition">
+                    Get Started
+                </button>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 border border-gray-200 dark:border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col">
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">Enterprise</h3>
+                    <div class="mt-4 flex items-baseline">
+                        <span class="text-3xl font-extrabold dark:text-white">Custom</span>
+                    </div>
+                    <p class="mt-2 text-gray-500 text-sm italic">Advanced security & control</p>
+                </div>
+                
+                <ul class="space-y-4 mb-8 flex-1">
+                    <li class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <span class="text-blue-600 mr-2">✔</span> Unlimited History
+                    </li>
+                    <li class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <span class="text-blue-600 mr-2">✔</span> SAML SSO
+                    </li>
+                    <li class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <span class="text-blue-600 mr-2">✔</span> Dedicated Manager
+                    </li>
+                </ul>
+
+                <a href="#" class="w-full py-4 px-6 rounded-2xl border-2 border-blue-600 text-blue-600 dark:text-blue-400 text-center font-bold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition">
+                    Contact Sales
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+<section class="bg-[#f4f4f4] dark:bg-gray-950 py-12 px-6 md:py-20">
+    <div class="max-w-6xl mx-auto bg-white dark:bg-gray-900 rounded-[2rem] p-8 md:p-16 flex flex-col md:flex-row items-center gap-10 md:gap-20">
+        
+        <div class="w-full md:w-1/2 flex justify-center">
+            <div class="relative w-68 h-64 md:w-80 md:h-80">
+                <img 
+                    src="image/price 1.webp" 
+                    alt="Security Illustration" 
+                    class="w-full h-full object-contain"
+                />
+            </div>
+        </div>
+
+        <div class="w-full md:w-1/2">
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-8">
+                Leading the way in enterprise security
+            </h2>
+
+            <ul class="space-y-6">
+                <li class="flex items-start gap-4">
+                    <div class="mt-1 bg-purple-600 rounded-full p-1 shrink-0">
+                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <p class="text-lg text-gray-700 dark:text-gray-300">
+                        Data encryption in transit and at rest
+                    </p>
+                </li>
+
+                <li class="flex items-start gap-4">
+                    <div class="mt-1 bg-purple-600 rounded-full p-1 shrink-0">
+                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <p class="text-lg text-gray-700 dark:text-gray-300">
+                        Comprehensive compliance and assurance programmes
+                    </p>
+                </li>
+
+                <li class="flex items-start gap-4">
+                    <div class="mt-1 bg-purple-600 rounded-full p-1 shrink-0">
+                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <p class="text-lg text-gray-700 dark:text-gray-300">
+                        Audit logs, data loss prevention, single sign-on and much more
+                    </p>
+                </li>
+            </ul>
+
+            <div class="mt-10">
+                <a href="#" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline flex items-center gap-1">
+                    Learn more about security 
+                    <span class="text-xl">→</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+  <footer class="bg-gray-900 text-white pt-10 pb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 mb-10">
+            
+            <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                <a href="index.html" class="log mb-3">
+                    <span class="font-black text-2xl bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text  text-transparent">GrowwSaas</span>
+                </a>
+                
+                <p class="text-gray-400 text-xs sm:text-sm mb-4 leading-relaxed text-left max-w-sm">
+                    Modern SaaS platform helping businesses scale with powerful tools and automation.
+                </p>
+                
+                <div class="flex gap-3">
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-all">
+                        <i class="fab fa-facebook-f text-xs text-white"></i>
+                    </a>
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-all">
+                        <i class="fab fa-twitter text-xs text-white"></i>
+                    </a>
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition-all">
+                        <i class="fab fa-linkedin-in text-xs text-white"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-span-1 flex flex-col items-start">
+                <h4 class="font-bold text-sm sm:text-base mb-4 text-blue-400 uppercase tracking-wider">Links</h4>
+                <ul class="space-y-2 text-gray-400 text-xs sm:text-sm text-left">
+                    <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+                    <li><a href="about.html" class="hover:text-white transition-colors">About</a></li>
+                    <li><a href="services.html" class="hover:text-white transition-colors">Services</a></li>
+                    <li><a href="price.html" class="hover:text-white transition-colors">Pricing</a></li>
+                    <li><a href="eatures.html" class="hover:text-white transition-colors">Features</a></li>
+                </ul>
+            </div>
+
+            <div class="col-span-1 flex flex-col items-start">
+                <h4 class="font-bold text-sm sm:text-base mb-4 text-blue-400 uppercase tracking-wider">Help</h4>
+                <ul class="space-y-2 text-gray-400 text-xs sm:text-sm text-left">
+                    <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Support</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Saas</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Privacy</a></li>
+                </ul>
+            </div>
+
+            <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                <h4 class="font-bold text-sm sm:text-base mb-4 text-blue-400 uppercase tracking-wider">Contact</h4>
+                <div class="grid grid-cols-2 lg:grid-cols-1 gap-4 w-full">
+                    <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i>
+                        <span>Bangalore, India</span>
+                    </div>
+                    <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                        <i data-lucide="mail" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i>
+                        <a href="mailto:hello@growwsaas.com" class="break-all">hello@growwsaas.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-6 border-t border-gray-800 flex flex-row justify-between items-center text-gray-500 text-[10px] sm:text-xs">
+            <p>© 2026 GrowwSaas</p>
+            <div class="flex gap-3">
+                <a href="#" class="hover:text-white">Terms</a>
+                <a href="#" class="hover:text-white">Cookies</a>
+            </div>
+            <div class="hidden sm:flex items-center gap-1">
+                <i class="fas fa-shield-alt text-blue-500"></i>
+                <span class="text-[10px]">Secure</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* Standardized Alignment for all devices */
+    footer .flex-col {
+        align-items: flex-start; /* Hard-align all content to the left */
+    }
+
+    @media (max-width: 639px) {
+        footer h4 {
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
+        footer p, footer li {
+            font-size: 0.75rem;
+        }
+        /* Extra padding removal for mobile side-by-side */
+        .grid-cols-2 {
+            gap-x: 4;
+        }
+    }
+    
+    footer a {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    @media (max-width: 768px) {
+        footer li a {
+            padding: 2px 0;
+            display: inline-block;
+        }
+    }
+</style>
+
+    <script>
+        lucide.createIcons();
+
+
+    </script>
+</body>
+</html>
