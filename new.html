@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>SaaS Products | Modern Dashboard</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/5968/5968705.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#3b82f6', 
+                        secondary: '#10b981',
+                        darkBg: '#0f172a'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                } 
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.2s ease;
+        }
+        
+        body.light {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: #0f172a;
+        }
+        
+        body.dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+        }
+        
+        body.menu-open {
+            overflow: hidden;
+        }
+        
+        /* Floating Navbar - Premium Blue Theme with glassmorphism */
+        .navbar {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            box-shadow: 0 15px 35px -12px rgba(0, 0, 0, 0.1), 0 0 0 0.5px rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .dark .navbar {
+            background: rgba(15, 23, 42, 0.92);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 15px 35px -12px rgba(59, 130, 246, 0.25);
+        }
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            padding: 6px 12px;
+            text-decoration: none;
+        }
+        
+        .logo:hover {
+            transform: scale(1.02);
+        }
+        
+        .logo-text {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.3px;
+        }
+        
+        /* Nav Links - Blue Theme Perfect */
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 40px;
+            color: #1e293b;
+            letter-spacing: 0.2px;
+            transition: all 0.25s ease;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        
+        .dark .nav-link {
+            color: #e2e8f0;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: linear-gradient(105deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            box-shadow: 0 6px 14px rgba(59, 130, 246, 0.35);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link i, .nav-link svg {
+            transition: transform 0.2s ease;
+        }
+        
+        .nav-link:hover i,
+        .nav-link.active i {
+            transform: rotate(180deg);
+        }
+        
+        /* Dropdown Menu - polished */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            margin-top: 12px;
+            min-width: 240px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 12px 8px;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            z-index: 1001;
+        }
+        
+        .dark .dropdown-menu {
+            background: rgba(30, 41, 59, 0.98);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 25px 40px -12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .dropdown-group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(4px);
+        }
+        
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-radius: 20px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 13.5px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            margin: 4px 0;
+        }
+        
+        .dark .dropdown-item {
+            color: #e2e8f0;
+        }
+        
+        .dropdown-item i, .dropdown-item svg {
+            width: 18px;
+            color: #3b82f6;
+        }
+        
+        .dropdown-item:hover {
+            background: linear-gradient(105deg, #3b82f6, #8b5cf6);
+            color: white;
+            transform: translateX(6px);
+        }
+        
+        .dropdown-item:hover i,
+        .dropdown-item:hover svg {
+            color: white;
+        }
+        
+        .dropdown-item.active {
+            background: linear-gradient(105deg, #3b82f6, #8b5cf6);
+            color: white;
+        }
+        
+        .dropdown-item.active i {
+            color: white;
+        }
+        
+        /* Full Screen Mobile Menu - Smooth */
+        #mobileMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(28px);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            overflow-y: auto;
+            padding: 24px 20px;
+        }
+        
+        .dark #mobileMenu {
+            background: rgba(15, 23, 42, 0.98);
+        }
+        
+        #mobileMenu.open {
+            transform: translateX(0);
+        }
+        
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            margin-bottom: 28px;
+            background: linear-gradient(115deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.1));
+            border-radius: 40px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .close-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: white;
+            border: none;
+            box-shadow: 0 6px 14px rgba(59, 130, 246, 0.4);
+        }
+        
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.05);
+        }
+        
+        /* Mobile Links - Premium */
+        .mobile-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border-radius: 28px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #1e293b;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
+            text-decoration: none;
+        }
+        
+        .dark .mobile-link {
+            color: #f1f5f9;
+            background: rgba(59, 130, 246, 0.12);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+        
+        .mobile-link:hover,
+        .mobile-link.active {
+            background: linear-gradient(105deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            transform: translateX(8px);
+            border-color: transparent;
+        }
+        
+        .mobile-submenu {
+            margin-left: 18px;
+            padding-left: 20px;
+            border-left: 3px solid #3b82f6;
+            display: none;
+            animation: slideIn 0.28s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .mobile-submenu.open {
+            display: block;
+        }
+        
+        .mobile-submenu a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            margin: 8px 0;
+            border-radius: 24px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .dark .mobile-submenu a {
+            color: #e2e8f0;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .mobile-submenu a:hover,
+        .mobile-submenu a.active {
+            background: linear-gradient(105deg, #3b82f6, #8b5cf6);
+            color: white !important;
+            transform: translateX(10px);
+            border-color: transparent;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 44px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 5px 12px rgba(59, 130, 246, 0.35);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 12px 22px rgba(59, 130, 246, 0.5);
+        }
+        
+        .settings-section {
+            background: linear-gradient(115deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.08));
+            border: 1.5px solid rgba(59, 130, 246, 0.35);
+            border-radius: 36px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+        
+        /* Main content spacing */
+        .main-content {
+            padding-top: 110px;
+            padding-bottom: 60px;
+        }
+        
+        /* Hero card styles */
+        .hero-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 48px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .dark .hero-card {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        
+        @media (max-width: 1024px) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .mobile-toggle {
+                display: none !important;
+            }
+            .desktop-menu {
+                display: flex !important;
+            }
+            .desktop-auth {
+                display: block !important;
+            }
+        }
+        
+        /* iPad Pro portrait fix */
+        @media (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait) {
+            .desktop-menu, .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+        }
+        
+        /* glow effect for active home indicators */
+        .badge-home {
+            background: #3b82f620;
+            border-radius: 30px;
+            padding: 2px 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body class="light font-inter">
+
+    <!-- Navbar - Elegant Floating Blue Theme -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 py-2">
+            <div class="flex items-center justify-between">
+                
+                <!-- Logo -->
+                <a href="#" class="logo" id="mainLogo">
+                    <span class="logo-text">⚡ SaaS Products</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu items-center gap-1">
+                    <!-- Home Dropdown with distinct background for active Home 1 / Home 2 -->
+                    <div class="dropdown-group relative">
+                        <button class="nav-link" id="desktopHomeBtn">
+                            Home <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item" data-home="home1" id="desktopHome1">
+                                <i data-lucide="layout-dashboard"></i>
+                                Home 1
+                            </a>
+                            <a href="#" class="dropdown-item" data-home="home2" id="desktopHome2">
+                                <i data-lucide="sparkles"></i>
+                                Home 2
+                            </a>
+                        </div>
+                    </div>
+
+                    <a href="#" class="nav-link" id="aboutLink">About</a>
+                    <a href="#" class="nav-link" id="servicesLink">Services</a>
+                    <a href="#" class="nav-link" id="pricingLink">Pricing</a>
+                    <a href="#" class="nav-link" id="featuresLink">Features</a>
+                    <a href="#" class="nav-link" id="contactLink">Contact</a>
+
+                    <div class="dropdown-group relative">
+                        <button class="nav-link">
+                            Dashboard <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">
+                                <i data-lucide="settings"></i>
+                                Admin Panel
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i data-lucide="user-circle"></i>
+                                User Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="flex items-center gap-2">
+                    <div class="desktop-menu flex items-center gap-2">
+                        <button onclick="toggleDirection()" class="action-btn">
+                            <i class="fa-solid fa-arrow-right-arrow-left text-sm"></i>
+                        </button>
+                        <button onclick="toggleTheme()" class="action-btn" id="themeToggleBtn">
+                            <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                            <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        </button>
+                    </div>
+
+                    <div class="desktop-auth dropdown-group relative">
+                        <button class="action-btn">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu" style="right: 0; left: auto;">
+                            <a href="#" class="dropdown-item">
+                                <i data-lucide="log-in"></i> Login
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i data-lucide="user-plus"></i> Signup
+                            </a>
+                        </div>
+                    </div>
+
+                    <button onclick="toggleMobileMenu()" class="mobile-toggle action-btn">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Fullscreen Menu -->
+    <div id="mobileMenu">
+        <div class="mobile-header">
+            <div class="flex items-center gap-2">
+                <span class="logo-text text-xl">✨ SaaS</span>
+            </div>
+            <button onclick="toggleMobileMenu()" class="close-btn">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div class="flex flex-col gap-2">
+            <!-- Mobile Home with Submenu -->
+            <div>
+                <div class="mobile-link" id="mobileHomeToggle">
+                    <span><i class="fas fa-home mr-2"></i> Home</span>
+                    <i class="fas fa-chevron-down text-sm transition-transform" id="mobileHomeChevron"></i>
+                </div>
+                <div class="mobile-submenu" id="mobileHomeSubmenu">
+                    <a href="#" data-mobile-home="home1" id="mobileHome1Link">
+                        <i class="fas fa-columns w-5"></i> Home 1
+                    </a>
+                    <a href="#" data-mobile-home="home2" id="mobileHome2Link">
+                        <i class="fas fa-chart-line w-5"></i> Home 2
+                    </a>
+                </div>
+            </div>
+            <a href="#" class="mobile-link" id="mobileAbout">About</a>
+            <a href="#" class="mobile-link" id="mobileServices">Services</a>
+            <a href="#" class="mobile-link" id="mobilePricing">Pricing</a>
+            <a href="#" class="mobile-link" id="mobileFeatures">Features</a>
+            <a href="#" class="mobile-link" id="mobileContact">Contact</a>
+            <a href="#" class="mobile-link">Admin Panel</a>
+            <a href="#" class="mobile-link">User Dashboard</a>
+            <div class="settings-section mt-6">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="font-bold"><i class="fas fa-palette mr-2"></i>Theme</span>
+                    <button onclick="toggleTheme()" class="action-btn w-auto px-4 rounded-full text-sm gap-2">🌓 Toggle</button>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-bold"><i class="fas fa-exchange-alt mr-2"></i>RTL/LTR</span>
+                    <button onclick="toggleDirection()" class="action-btn w-auto px-4 rounded-full text-sm">Switch</button>
+                </div>
+            </div>
+            <div class="mt-6 flex gap-3">
+                <a href="#" class="flex-1 text-center py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold">Login</a>
+                <a href="#" class="flex-1 text-center py-3 rounded-full border border-blue-500 text-blue-600 dark:text-blue-300 font-semibold">Signup</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Main Content Area -->
+    <main class="main-content max-w-7xl mx-auto px-5 md:px-8 transition-all duration-300">
+        <div id="pageContent">
+            <!-- Home 1 Default (initial) -->
+            <div id="home1View" class="animate-fade-in">
+                <div class="hero-card p-8 md:p-12 text-center shadow-xl">
+                    <div class="inline-block px-4 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-sm font-semibold mb-6">✨ Welcome to Home 1</div>
+                    <h1 class="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-5">Modern SaaS Solutions</h1>
+                    <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">Experience seamless productivity with our intelligent platform. Home 1 edition brings you lightning-fast analytics and real-time collaboration.</p>
+                    <div class="mt-8 flex gap-4 justify-center flex-wrap">
+                        <button class="px-7 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold shadow-lg hover:scale-105 transition">Get Started →</button>
+                        <button class="px-7 py-3 rounded-full border-2 border-blue-500 text-blue-600 dark:text-blue-400 font-bold">Live Demo</button>
+                    </div>
+                    <div class="mt-12 grid md:grid-cols-3 gap-6 text-left">
+                        <div class="p-5 rounded-2xl bg-white/50 dark:bg-white/5 backdrop-blur"><i class="fas fa-chart-line text-blue-500 text-2xl mb-3"></i><h3 class="font-bold">Real-time Insights</h3><p class="text-sm">Track metrics instantly</p></div>
+                        <div class="p-5 rounded-2xl bg-white/50 dark:bg-white/5 backdrop-blur"><i class="fas fa-shield-alt text-blue-500 text-2xl mb-3"></i><h3 class="font-bold">Enterprise Security</h3><p class="text-sm">Bank-grade protection</p></div>
+                        <div class="p-5 rounded-2xl bg-white/50 dark:bg-white/5 backdrop-blur"><i class="fas fa-cloud-upload-alt text-blue-500 text-2xl mb-3"></i><h3 class="font-bold">Cloud Native</h3><p class="text-sm">Scale globally</p></div>
+                    </div>
+                </div>
+            </div>
+            <div id="home2View" class="hidden animate-fade-in">
+                <div class="hero-card p-8 md:p-12 text-center shadow-xl" style="background: linear-gradient(125deg, rgba(16,185,129,0.05), rgba(59,130,246,0.1));">
+                    <div class="inline-block px-4 py-1 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 text-sm font-semibold mb-6">🚀 Home 2 - Pro Experience</div>
+                    <h1 class="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-emerald-500 to-blue-600 bg-clip-text text-transparent mb-5">Next-Gen SaaS Platform</h1>
+                    <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">Home 2 edition: AI-powered automation, custom workflows, and advanced integrations for modern enterprises.</p>
+                    <div class="mt-8 flex gap-4 justify-center">
+                        <button class="px-8 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white font-bold shadow-xl transition hover:scale-105">Explore Home 2 →</button>
+                    </div>
+                    <div class="mt-12 flex flex-wrap justify-center gap-8">
+                        <div class="flex items-center gap-2"><i class="fas fa-robot text-emerald-500 text-2xl"></i><span>AI Copilot</span></div>
+                        <div class="flex items-center gap-2"><i class="fas fa-chart-simple text-blue-500 text-2xl"></i><span>Deep Analytics</span></div>
+                        <div class="flex items-center gap-2"><i class="fas fa-infinity text-purple-500 text-2xl"></i><span>Unlimited Scale</span></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Placeholder for other pages -->
+            <div id="aboutPlaceholder" class="hidden text-center p-12"><h2 class="text-4xl font-bold mb-4">About Us</h2><p class="text-lg">We're a global SaaS leader empowering thousands of businesses.</p></div>
+            <div id="servicesPlaceholder" class="hidden text-center p-12"><h2 class="text-4xl font-bold mb-4">Our Services</h2><p class="text-lg">Consulting, implementation, and 24/7 support.</p></div>
+            <div id="pricingPlaceholder" class="hidden text-center p-12"><h2 class="text-4xl font-bold mb-4">Pricing Plans</h2><p class="text-lg">Flexible subscriptions for startups to enterprises.</p></div>
+            <div id="featuresPlaceholder" class="hidden text-center p-12"><h2 class="text-4xl font-bold mb-4">Features</h2><p class="text-lg">Advanced security, API-first, real-time sync.</p></div>
+            <div id="contactPlaceholder" class="hidden text-center p-12"><h2 class="text-4xl font-bold mb-4">Contact</h2><p class="text-lg">hello@saasproducts.com | +1 888 123 4567</p></div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+        
+        // Active states and content switching
+        let currentActive = 'home1';
+        
+        function showHome1() {
+            document.getElementById('home1View').classList.remove('hidden');
+            document.getElementById('home2View').classList.add('hidden');
+            document.querySelectorAll('[id$="Placeholder"]').forEach(el => el.classList.add('hidden'));
+            currentActive = 'home1';
+            updateActiveNavStyles('home1');
+        }
+        
+        function showHome2() {
+            document.getElementById('home1View').classList.add('hidden');
+            document.getElementById('home2View').classList.remove('hidden');
+            document.querySelectorAll('[id$="Placeholder"]').forEach(el => el.classList.add('hidden'));
+            currentActive = 'home2';
+            updateActiveNavStyles('home2');
+        }
+        
+        function showPage(pageId) {
+            document.getElementById('home1View').classList.add('hidden');
+            document.getElementById('home2View').classList.add('hidden');
+            document.querySelectorAll('[id$="Placeholder"]').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(pageId);
+            if(target) target.classList.remove('hidden');
+            if(pageId === 'aboutPlaceholder') updateActiveNavStyles('about');
+            else if(pageId === 'servicesPlaceholder') updateActiveNavStyles('services');
+            else if(pageId === 'pricingPlaceholder') updateActiveNavStyles('pricing');
+            else if(pageId === 'featuresPlaceholder') updateActiveNavStyles('features');
+            else if(pageId === 'contactPlaceholder') updateActiveNavStyles('contact');
+            else if(pageId === 'home1View') updateActiveNavStyles('home1');
+            else if(pageId === 'home2View') updateActiveNavStyles('home2');
+        }
+        
+        function updateActiveNavStyles(activeId) {
+            // Desktop dropdown items: Home 1 & Home 2 distinct background
+            const desktopHome1 = document.getElementById('desktopHome1');
+            const desktopHome2 = document.getElementById('desktopHome2');
+            const desktopHomeBtn = document.getElementById('desktopHomeBtn');
+            if(activeId === 'home1') {
+                desktopHome1.classList.add('active');
+                desktopHome2.classList.remove('active');
+                desktopHomeBtn.classList.add('active');
+            } else if(activeId === 'home2') {
+                desktopHome2.classList.add('active');
+                desktopHome1.classList.remove('active');
+                desktopHomeBtn.classList.add('active');
+            } else {
+                desktopHome1.classList.remove('active');
+                desktopHome2.classList.remove('active');
+                desktopHomeBtn.classList.remove('active');
+            }
+            // Mobile active highlight
+            document.querySelectorAll('.mobile-submenu a').forEach(link => link.classList.remove('active'));
+            if(activeId === 'home1') document.getElementById('mobileHome1Link')?.classList.add('active');
+            if(activeId === 'home2') document.getElementById('mobileHome2Link')?.classList.add('active');
+            
+            // Additional page highlights (optional)
+        }
+        
+        // Event listeners for navigation
+        document.getElementById('desktopHome1').addEventListener('click', (e) => { e.preventDefault(); showHome1(); if(window.innerWidth <= 1024) toggleMobileMenu(); });
+        document.getElementById('desktopHome2').addEventListener('click', (e) => { e.preventDefault(); showHome2(); if(window.innerWidth <= 1024) toggleMobileMenu(); });
+        document.getElementById('mobileHome1Link').addEventListener('click', (e) => { e.preventDefault(); showHome1(); toggleMobileMenu(); });
+        document.getElementById('mobileHome2Link').addEventListener('click', (e) => { e.preventDefault(); showHome2(); toggleMobileMenu(); });
+        
+        document.getElementById('aboutLink').addEventListener('click', (e) => { e.preventDefault(); showPage('aboutPlaceholder'); });
+        document.getElementById('servicesLink').addEventListener('click', (e) => { e.preventDefault(); showPage('servicesPlaceholder'); });
+        document.getElementById('pricingLink').addEventListener('click', (e) => { e.preventDefault(); showPage('pricingPlaceholder'); });
+        document.getElementById('featuresLink').addEventListener('click', (e) => { e.preventDefault(); showPage('featuresPlaceholder'); });
+        document.getElementById('contactLink').addEventListener('click', (e) => { e.preventDefault(); showPage('contactPlaceholder'); });
+        
+        document.getElementById('mobileAbout').addEventListener('click', (e) => { e.preventDefault(); showPage('aboutPlaceholder'); toggleMobileMenu(); });
+        document.getElementById('mobileServices').addEventListener('click', (e) => { e.preventDefault(); showPage('servicesPlaceholder'); toggleMobileMenu(); });
+        document.getElementById('mobilePricing').addEventListener('click', (e) => { e.preventDefault(); showPage('pricingPlaceholder'); toggleMobileMenu(); });
+        document.getElementById('mobileFeatures').addEventListener('click', (e) => { e.preventDefault(); showPage('featuresPlaceholder'); toggleMobileMenu(); });
+        document.getElementById('mobileContact').addEventListener('click', (e) => { e.preventDefault(); showPage('contactPlaceholder'); toggleMobileMenu(); });
+        
+        // Mobile home submenu toggle
+        const mobileHomeToggle = document.getElementById('mobileHomeToggle');
+        const mobileSub = document.getElementById('mobileHomeSubmenu');
+        const mobileChevron = document.getElementById('mobileHomeChevron');
+        mobileHomeToggle.addEventListener('click', () => {
+            mobileSub.classList.toggle('open');
+            mobileChevron.style.transform = mobileSub.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+        });
+        
+        // Theme & Direction
+        function toggleTheme() {
+            const html = document.documentElement;
+            const body = document.body;
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                html.classList.add('dark');
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                html.classList.remove('dark');
+            }
+            lucide.createIcons();
+        }
+        window.toggleTheme = toggleTheme;
+        
+        function toggleDirection() {
+            const root = document.documentElement;
+            if (root.getAttribute('dir') === 'rtl') {
+                root.removeAttribute('dir');
+                document.body.style.textAlign = 'left';
+            } else {
+                root.setAttribute('dir', 'rtl');
+                document.body.style.textAlign = 'right';
+            }
+        }
+        window.toggleDirection = toggleDirection;
+        
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('open');
+            document.body.classList.toggle('menu-open');
+        }
+        window.toggleMobileMenu = toggleMobileMenu;
+        
+        // initial active home1
+        showHome1();
+        
+        // reinitialize lucide icons after theme toggles
+        window.addEventListener('click', () => setTimeout(() => lucide.createIcons(), 50));
+    </script>
+</body>
+</html>
